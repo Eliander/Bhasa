@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.eliander.bhasa.postRequest;
+package postRequest;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,22 +23,6 @@ public class UNIVRequest {
 
     public static Date dataDate, valuesDate;
     public static StringBuilder data, values;
-
-    public void call() {
-
-        //time control for data
-        if (dataDate.equals(null)) {
-            dataDate = new Date();
-        } else if (dataDate.getTime() - (new Date().getTime()) > (10 * 1000 * 60)) { //10 min
-            getData();
-        }
-        //time control for values
-        if (valuesDate.equals(null)) {
-            valuesDate = new Date();
-        } else if (valuesDate.getTime() - (new Date().getTime()) > (10 * 1000 * 60)) { //10 min
-            getValues();
-        }
-    }
 
     public void getValues() {
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="TRACE">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t][%level][%logger{36}] %msg%n"/>
+        </Console>
+        <RollingFile name="File" fileName="logs/arrivo.log" filePattern="logs/arrivo-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t][%level][%logger{36}] %msg%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

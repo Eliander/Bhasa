@@ -5,7 +5,7 @@
  */
 package task;
 
-import com.eliander.bhasa.postRequest.UNIVRequest;
+import postRequest.UNIVRequest;
 import java.util.TimerTask;
 
 /**
