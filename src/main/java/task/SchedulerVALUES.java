@@ -5,18 +5,25 @@
  */
 package task;
 
+import gsonParser.GsonFormatter;
 import postRequest.UNIVRequest;
 import java.util.TimerTask;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author Elia
  */
 public class SchedulerVALUES extends TimerTask{
+    
     UNIVRequest http = new UNIVRequest();
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(SchedulerVALUES.class);
+
     
     public void run() {
-        System.out.println("POST request");
-        http.getValues();
+        String[] values = http.getValues();
+        GsonFormatter json = new GsonFormatter();
+        json.formatValues(values);
+
     }
 }

@@ -19,6 +19,12 @@ public class Courses {
         this.pub_type = pub_type;
         this.elenco_anni = elenco_anni;
     }
+    
+    public Courses(String label, String valore, String pub_type) {
+        this.label = label;
+        this.valore = valore;
+        this.pub_type = pub_type;
+    }
 
     public Courses() {
     }

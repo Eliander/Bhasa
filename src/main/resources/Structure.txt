@@ -1,0 +1,24 @@
+		Main
+		  | |_ set time refresch for scheduler
+		  | |_ start Timed
+		  |_ Timed
+			      |_ inizialize TimerData 
+				  |_ inizialize TimerValue
+				  |_ inizialize SchedulerData
+				  |					|_ inizialize UNIVRequest
+				  |									|_ call getData
+				  |											|_ set URL
+				  |											|_ start connection
+				  |											|_ send POST
+				  |											|_ split data
+				  |											|_ return String[] of data
+				  |_ inizialize SchedulerValues
+				  |					|_ inizialize UNIVRequest
+				  |									|_ call getData
+				  |											|_ set URL
+				  |											|_ start connection
+				  |											|_ send POST
+				  |											|_ split data
+				  |											|_ return String[] of data
+				  |_ start timerData
+				  |_ start timerValues

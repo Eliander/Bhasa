@@ -26,13 +26,13 @@ public class UNIVRequest {
     public static StringBuilder data, values;
     private static org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
 
-    public void getValues() {
-
+    public String[] getValues() {
+        String arr[] = null;
         try {
             String url = "https://logistica.univr.it/aule/Orario/combo_call.php";
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-            log.info("Try to send POST request - values");
+            log.info("Send POST request - values");
             con.setRequestMethod("POST");
             String urlParameters = "_=111111";
 
@@ -59,19 +59,21 @@ public class UNIVRequest {
             in.close();
             //print result
             String str = response.toString();
-            String arr[] = str.split("var ");
+            arr = str.split("var ");
             for (String s : arr) {
                 System.out.println(s);
                 System.out.println('\n');;
             }
+            return arr;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
+            return arr;
         }
     }
 
     // HTTP POST request: grid_call.php, contains data
-    public void getData() {
-
+    public String[] getData() {
+        String arr[] = null;
         try {
             String stringUrl = "https://logistica.univr.it/aule/Orario/grid_call.php";
             URL url = new URL(stringUrl);
@@ -80,6 +82,7 @@ public class UNIVRequest {
             connection.setRequestMethod("POST");
             //set body parameters (not a get)
             String urlParameters = "form-type=corso&aa=2017&cdl=420&anno=2017&corso=420&anno2=999%7C2&date=23-10-2017&_lang=it&all_events=0";
+            log.info("Send POST request - data");
 
             // Send post request
             connection.setDoOutput(true);
@@ -104,13 +107,15 @@ public class UNIVRequest {
 
             //print results
             String str = response.toString();
-            String arr[] = str.split("var ");
+            arr = str.split("var ");
             for (String s : arr) {
                 System.out.println(s);
                 System.out.println('\n');;
             }
+            return arr;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
+            return arr;
         }
     }
 

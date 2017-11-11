@@ -5,6 +5,7 @@
  */
 package task;
 
+import gsonParser.GsonFormatter;
 import postRequest.UNIVRequest;
 import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,8 @@ public class SchedulerDATA extends TimerTask{
     UNIVRequest http = new UNIVRequest();
     
     public void run() {
-        http.getData();
+        String[] data =http.getData();
+        GsonFormatter json = new GsonFormatter();
+        json.formatData(data);
     }
 }
