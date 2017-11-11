@@ -6,9 +6,9 @@
 package gsonParser;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
+import persistence.Modules;
 
 /**
  *
@@ -31,30 +31,67 @@ public class GsonFormatter {
 
     private ArrayList<Courses> getCourses(String values) {
         ArrayList<Courses> courses = new ArrayList();
+        String modules = "";
         try {
-            values = values.replace("}","");
+            values = values.replace("}", "");
             values = values.replace("{", " ");
             values = values.replace(":", " ");
             values = values.replace("\"", "");
             String[] strCourses = values.split("label");
-            for (int i = 2; i < strCourses.length; i++) {
+            for (int i = 2; i < values.length();) {
                 if (strCourses[i].contains("elenco_anni")) {
-                    courses.add(parseCourses(strCourses[i]));
+                    Courses course = parseCourses(strCourses[i]);
+                    i++;
+                    while (!strCourses[i].contains("elenco_anni")) {//se i successivi non hanno elenco_anni sono moduli
+                        modules = modules + "$" + strCourses[i]; //creo una stringa
+                        i++;
+                    }
+                    course = addModules(course, modules);//aggiungo i moduli
+                    courses.add(course);
+                    modules = "";
                 } else {
-                    System.out.println("modulo");
+                    System.out.println("ERROR");
                 }
+                System.out.println("ok");
             }
         } catch (Exception e) {
             log.error(e);
         }
-        return null;
+        return courses;
     }
 
-    private Courses parseCourses(String strCourse){
+    private Courses parseCourses(String strCourse) {
         String[] strings = strCourse.split(",");
         strings[1] = strings[1].replace("valore", "");
         strings[2] = strings[2].replace("pub_type", "");
+        //normalize first space
+        for (int i = 0; i < strings.length; i++) {
+            if (strings[i].charAt(0) == ' ') {
+                strings[i] = strings[i].substring(1);
+            }
+        }
         Courses course = new Courses(strings[0], strings[1], strings[2]);
         return course;
     }
+
+    private Courses addModules(Courses course, String modules) {
+        //tolgo caratteri sporchi
+        modules = modules.replace("}", "");
+        modules = modules.replace("{", " ");
+        modules = modules.replace(":", " ");
+        modules = modules.replace("\"", "");
+        modules = modules.replace("[", " ");
+        modules = modules.replace("]", "");
+        //ottendo i diversi moduli
+        String[] split = modules.split("\\$");
+        for(int i = 1; i < split.length; i ++){
+            split[i] = split[i].replace("valore", "");
+            //splitto per ottenere i campi
+            String[] splitModule = split[i].split(",");
+            Modules m = new Modules(splitModule[0], splitModule[1]);
+            course.addModule(m);
+        }
+        return course;
+    }
+
 }

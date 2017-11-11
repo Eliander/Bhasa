@@ -24,6 +24,7 @@ public class Courses {
         this.label = label;
         this.valore = valore;
         this.pub_type = pub_type;
+        this.elenco_anni = new ArrayList();
     }
 
     public Courses() {
@@ -59,6 +60,10 @@ public class Courses {
 
     public void setElenco_anni(ArrayList<Modules> elenco_anni) {
         this.elenco_anni = elenco_anni;
+    }
+    
+    public void addModule(Modules module){
+        this.elenco_anni.add(module);
     }
     
 }
