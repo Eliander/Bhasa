@@ -5,8 +5,9 @@
  */
 package bhasa;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import java.util.Properties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import task.Timed;
 
 /**
@@ -17,6 +18,7 @@ public class Main {
     //soppiantata dal main del bot
 
     private static Logger log = LogManager.getLogger(Main.class);
+    private Properties config = new Properties();
 
     public static void main(String[] args) {
         //24 volte al giorno
@@ -25,7 +27,7 @@ public class Main {
         int intDATA = 3600000;
         int intVALUES = 86400000;
         try {
-            log.info("Partito");
+            log.info("Start timer");
             Timed start = new Timed(intDATA, intVALUES);
         } catch (Exception e) {
             log.error(e);

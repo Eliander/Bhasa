@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t][%level][%logger{36}] %msg%n"/>
         </Console>
-        <RollingFile name="File" fileName="logs/arrivo.log" filePattern="logs/arrivo-%d{MM-dd-yyyy}-%i.log">
+        <RollingFile name="File" fileName="logs/Bhasa.log" filePattern="logs/Bhasa-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t][%level][%logger{36}] %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>

@@ -7,12 +7,17 @@ package task;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Elia
  */
 public class Timed {
+    
+        private static Logger log = LogManager.getLogger(Timed.class);
+
 
     public Timed(int intDATA, int intVALUES){
         
@@ -23,9 +28,7 @@ public class Timed {
 
         // aspetta 0 secondi prima dell'esecuzione,poi
         // viene eseguita ogni 2 secondi
-        System.out.println("Data");
         timerDATA.schedule(taskDATA, 0, intDATA);
-        System.out.println("Values");
         timerVALUES.schedule(taskVALUES, 0, intVALUES);
     }
 }

@@ -7,16 +7,20 @@ package task;
 
 import postRequest.UNIVRequest;
 import java.util.TimerTask;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Elia
  */
 public class SchedulerDATA extends TimerTask{
+    
+    private static Logger log = LogManager.getLogger(SchedulerDATA.class);
+
     UNIVRequest http = new UNIVRequest();
     
     public void run() {
-        System.out.println("POST request");
         http.getData();
     }
 }

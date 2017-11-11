@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -23,6 +24,7 @@ public class UNIVRequest {
 
     public static Date dataDate, valuesDate;
     public static StringBuilder data, values;
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
 
     public void getValues() {
 
@@ -30,7 +32,7 @@ public class UNIVRequest {
             String url = "https://logistica.univr.it/aule/Orario/combo_call.php";
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
+            log.info("Try to send POST request - values");
             con.setRequestMethod("POST");
             String urlParameters = "_=111111";
 
@@ -63,7 +65,7 @@ public class UNIVRequest {
                 System.out.println('\n');;
             }
         } catch (Exception ex) {
-            Logger.getLogger(UNIVRequest.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(UNIVRequest.class.getName(), ex);
         }
     }
 
@@ -108,7 +110,7 @@ public class UNIVRequest {
                 System.out.println('\n');;
             }
         } catch (Exception ex) {
-            Logger.getLogger(UNIVRequest.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(UNIVRequest.class.getName(), ex);
         }
     }
 
