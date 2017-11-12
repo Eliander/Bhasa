@@ -38,11 +38,12 @@ public class GsonFormatter {
             values = values.replace(":", " ");
             values = values.replace("\"", "");
             String[] strCourses = values.split("label");
-            for (int i = 2; i < values.length();) {
+            int i;
+            for (i = 2; i < strCourses.length - 1;) {
                 if (strCourses[i].contains("elenco_anni")) {
                     Courses course = parseCourses(strCourses[i]);
                     i++;
-                    while (!strCourses[i].contains("elenco_anni")) {//se i successivi non hanno elenco_anni sono moduli
+                    while (!strCourses[i].contains("elenco_anni") && (i < strCourses.length - 1)) {//se i successivi non hanno elenco_anni sono moduli
                         modules = modules + "$" + strCourses[i]; //creo una stringa
                         i++;
                     }
@@ -54,6 +55,7 @@ public class GsonFormatter {
                 }
                 System.out.println("ok");
             }
+            System.out.println(i);
         } catch (Exception e) {
             log.error(e);
         }

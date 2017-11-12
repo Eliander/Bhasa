@@ -6,19 +6,41 @@
 				  |_ inizialize TimerValue
 				  |_ inizialize SchedulerData
 				  |					|_ inizialize UNIVRequest
-				  |									|_ call getData
-				  |											|_ set URL
-				  |											|_ start connection
-				  |											|_ send POST
-				  |											|_ split data
-				  |											|_ return String[] of data
+				  |					|				|_ call getData
+				  |					|						|_ set URL
+				  |					|						|_ start connection
+				  |					|						|_ send POST
+				  |					|						|_ split data
+				  |					|						|_ return String[] of data
+				  |					|_ GSON Formatter
+				  |								    |_ call getCourses
+				  |											|_replace all the usless character
+				  |											|_ extract courses
+				  |											|_ call parseCourse
+																			|_ create Courses obj from String
+																			|_ return course
+															|_ call addModules
+																			|_ return course
+				  |
 				  |_ inizialize SchedulerValues
 				  |					|_ inizialize UNIVRequest
-				  |									|_ call getData
-				  |											|_ set URL
-				  |											|_ start connection
-				  |											|_ send POST
-				  |											|_ split data
-				  |											|_ return String[] of data
+				  |					|						|_ call getValues
+				  |					|						|_ set URL
+				  |					|						|_ start connection
+				  |					|						|_ send POST
+				  |					|						|_ split data
+				  |					|						|_ return String[] of data
+				  |					|_ GSONFormatter
 				  |_ start timerData
+				  |				|_ schedule taskData
 				  |_ start timerValues
+								|_ schedule taskData
+								
+								
+								
+								
++-----------------+
+|      NOTES      |
++-----------------+
+DATA: data of the day (lessons time)
+VALUES: data for the storage, codes
