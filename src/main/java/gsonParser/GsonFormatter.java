@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
 import persistence.Modules;
+import persistence.Teacher;
 
 /**
  *
@@ -24,11 +25,12 @@ public class GsonFormatter {
     }
 
     public ArrayList<Courses> formatValues(String[] values) {
-        ArrayList<Courses> courses = getCourses(values[1]);
-        return courses;
+        //ArrayList<Courses> courses = getCourses(values[1]);
+        return getCourses(values[1]);
 
     }
 
+    //data la stringa di tutti i valori restituisce un arraylist di Courses
     private ArrayList<Courses> getCourses(String values) {
         ArrayList<Courses> courses = new ArrayList();
         String modules = "";
@@ -51,17 +53,17 @@ public class GsonFormatter {
                     courses.add(course);
                     modules = "";
                 } else {
-                    System.out.println("ERROR");
+                    log.error("ERROR, I haven't a course");
                 }
-                System.out.println("ok");
             }
-            System.out.println(i);
+            log.info("All courses successfully created");
         } catch (Exception e) {
             log.error(e);
         }
         return courses;
     }
 
+    //data una stringa restituisce un corso - usato da getCourses
     private Courses parseCourses(String strCourse) {
         String[] strings = strCourse.split(",");
         strings[1] = strings[1].replace("valore", "");
@@ -76,6 +78,8 @@ public class GsonFormatter {
         return course;
     }
 
+    //dato un corso e una stringa contenente i moduli, restituisce un corso
+    //con tutti i moduli assegnati - usato da getCourses
     private Courses addModules(Courses course, String modules) {
         //tolgo caratteri sporchi
         modules = modules.replace("}", "");
@@ -96,4 +100,8 @@ public class GsonFormatter {
         return course;
     }
 
+    private ArrayList<Teacher> getTeacher(String values){
+
+        return null;
+    }
 }
