@@ -6,6 +6,7 @@
 package gsonParser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
 import persistence.Modules;
@@ -19,20 +20,21 @@ public class GsonFormatter {
 
     private static org.apache.logging.log4j.Logger log = LogManager.getLogger(GsonFormatter.class);
 
-    public ArrayList<Courses> formatData(String[] data) {
-        ArrayList<Courses> courses = null;
+    public HashSet<Courses> formatData(String[] data) {
+        HashSet<Courses> courses = null;
         return courses;
     }
 
-    public ArrayList<Courses> formatValues(String[] values) {
-        //ArrayList<Courses> courses = getCourses(values[1]);
-        return getCourses(values[1]);
+    public HashSet<Courses> formatValues(String[] values) {
+        HashSet<Courses> courses = getCourses(values[1]);
+        return courses;
+        //return getCourses(values[1]);
 
     }
 
     //data la stringa di tutti i valori restituisce un arraylist di Courses
-    private ArrayList<Courses> getCourses(String values) {
-        ArrayList<Courses> courses = new ArrayList();
+    private HashSet<Courses> getCourses(String values) {
+        HashSet<Courses> courses = new HashSet();
         String modules = "";
         try {
             values = values.replace("}", "");

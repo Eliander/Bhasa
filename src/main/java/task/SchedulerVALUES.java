@@ -24,6 +24,7 @@ public class SchedulerVALUES extends TimerTask{
         String[] values = http.getValues();
         GsonFormatter json = new GsonFormatter();
         json.formatValues(values);
+        System.out.println("ok");
 
     }
 }

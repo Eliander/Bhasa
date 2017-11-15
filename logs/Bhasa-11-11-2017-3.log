@@ -1,3 +1,0 @@
-18:48:10.663 [main][INFO][bhasa.Main] Start timer
-18:48:10.851 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
-18:48:10.851 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values

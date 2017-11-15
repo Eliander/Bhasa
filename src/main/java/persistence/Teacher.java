@@ -1,15 +1,17 @@
 package persistence;
 
+import java.util.Objects;
+
 public class Teacher {
 
     private String surname;
     private String name;
-    private String value;
+    private String valore;
 
     public Teacher(String surname, String name, String value) {
         this.surname = surname;
         this.name = name;
-        this.value = value;
+        this.valore = value;
     }
 
     public String getSurname() {
@@ -28,11 +30,30 @@ public class Teacher {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getValore() {
+        return valore;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValore(String value) {
+        this.valore = value;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.valore);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Teacher) {
+            Teacher otherTeacher = (Teacher) other;
+            return valore == otherTeacher.valore;
+        } else {
+            return false;
+        }
+    }
+    
+    
 }

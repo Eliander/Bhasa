@@ -1,13 +1,14 @@
 package persistence;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author Elia
  */
 public class Courses {
-    
+
     private String label;
     private String valore;
     private String pub_type;
@@ -19,7 +20,7 @@ public class Courses {
         this.pub_type = pub_type;
         this.elenco_anni = elenco_anni;
     }
-    
+
     public Courses(String label, String valore, String pub_type) {
         this.label = label;
         this.valore = valore;
@@ -29,7 +30,7 @@ public class Courses {
 
     public Courses() {
     }
-    
+
     public String getLabel() {
         return label;
     }
@@ -61,9 +62,27 @@ public class Courses {
     public void setElenco_anni(ArrayList<Modules> elenco_anni) {
         this.elenco_anni = elenco_anni;
     }
-    
-    public void addModule(Modules module){
+
+    public void addModule(Modules module) {
         this.elenco_anni.add(module);
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.label);
+        hash = 53 * hash + Objects.hashCode(this.valore);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Courses) {
+            Courses otherCourse = (Courses) other;
+            return label == otherCourse.label && valore == otherCourse.valore;
+        } else {
+            return false;
+        }
+    }
+
 }
