@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
+import persistence.Location;
 import persistence.Modules;
 import persistence.Teacher;
 
@@ -26,14 +27,21 @@ public class GsonFormatter {
     }
 
     public HashSet<Courses> formatValues(String[] values) {
-        HashSet<Courses> courses = getCourses(values[1]);
-        return courses;
+        HashSet<Courses> coursesAndModues = popolateCourses(values[1]);
+        HashSet<Teacher> teachers = getTeacher(values[3]);
+        System.out.println("$$$$$$");
+        for(Teacher th : teachers){
+            System.out.println(th.getName() + th.getValore());
+        }
+        
+        System.out.println("$$$$$$");
+        return coursesAndModues;
         //return getCourses(values[1]);
 
     }
 
     //data la stringa di tutti i valori restituisce un arraylist di Courses
-    private HashSet<Courses> getCourses(String values) {
+    private HashSet<Courses> popolateCourses(String values) {
         HashSet<Courses> courses = new HashSet();
         String modules = "";
         try {
@@ -92,7 +100,7 @@ public class GsonFormatter {
         modules = modules.replace("]", "");
         //ottendo i diversi moduli
         String[] split = modules.split("\\$");
-        for(int i = 1; i < split.length; i ++){
+        for (int i = 1; i < split.length; i++) {
             split[i] = split[i].replace("valore", "");
             //splitto per ottenere i campi
             String[] splitModule = split[i].split(",");
@@ -102,8 +110,41 @@ public class GsonFormatter {
         return course;
     }
 
-    private ArrayList<Teacher> getTeacher(String values){
+    private HashSet<Teacher> getTeacher(String values) {
+        HashSet<Teacher> teachers = new HashSet();
+        try {
+            values = values.replace("}", "");
+            values = values.replace("{", " ");
+            values = values.replace(":", " ");
+            values = values.replace("\"", "");
+            values = values.replace(",valore", "$");
+            values = values.replace("\\\\", "\\");
+            String[] strTeachers = values.split("label");
+            for (int i = 2; i < strTeachers.length; i++) {
+                teachers.add(parseTeacher(strTeachers[i]));
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return teachers;
+    }
 
+    private Teacher parseTeacher(String strTeacher) {
+        /*if(strTeacher.contains("\\")){
+            int index = strTeacher.indexOf("\\");
+            String specialChar = strTeacher.substring(index, index + 6);
+            char toInsert = (char) Integer.parseInt(specialChar.substring(1), 16 );
+            strTeacher = new StringBuilder(strTeacher).insert(index, toInsert).toString();
+        }*/
+        String[] parse = strTeacher.split("\\$");
+        //tolgo lo spazio iniziale e la virgola del corso
+        
+        return new Teacher(parse[0].substring(1), parse[1].substring(1).replace(",", ""));
+    }
+
+    private HashSet<Location> getLocation(String values) {
+        //12
         return null;
     }
+
 }

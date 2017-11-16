@@ -1,0 +1,4 @@
+21:18:53.178 [main][INFO][bhasa.Main] Start timer
+21:18:53.366 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
+21:18:53.366 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values
+21:18:54.022 [Timer-1][INFO][gsonParser.GsonFormatter] All courses successfully created

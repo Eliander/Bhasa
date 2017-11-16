@@ -4,22 +4,12 @@ import java.util.Objects;
 
 public class Teacher {
 
-    private String surname;
     private String name;
     private String valore;
 
-    public Teacher(String surname, String name, String value) {
-        this.surname = surname;
+    public Teacher(String name, String value) {
         this.name = name;
         this.valore = value;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getName() {
