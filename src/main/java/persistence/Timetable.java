@@ -12,6 +12,9 @@ public class Timetable {
     private HashSet<Teacher> teacher;
     private HashSet<Location> location;
 
+    public Timetable() {
+    }
+    
     public Timetable(HashSet<Courses> courses, HashSet<Teacher> teacher, HashSet<Location> location) {
         this.courses = courses;
         this.teacher = teacher;

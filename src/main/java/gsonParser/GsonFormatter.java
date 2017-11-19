@@ -15,6 +15,7 @@ import persistence.Courses;
 import persistence.Location;
 import persistence.Modules;
 import persistence.Teacher;
+import persistence.Timetable;
 
 /**
  *
@@ -29,16 +30,13 @@ public class GsonFormatter {
         return courses;
     }
 
-    public HashSet<Courses> formatValues(String[] values) {
-        HashSet<Courses> coursesAndModues = popolateCourses(values[1]);
-        HashSet<Teacher> teachers = getTeacher(values[3]);
-        System.out.println("$$$$$$");
-        for (Teacher th : teachers) {
-            System.out.println(th.getName() + " " + th.getValore());
-        }
-
-        System.out.println("$$$$$$");
-        return coursesAndModues;
+    public Timetable formatValues(String[] values) {
+        Timetable timetable = new Timetable();
+        //HashSet<Courses> coursesAndModues = popolateCourses(values[1]);
+        timetable.setCourses(popolateCourses(values[1]));
+        //HashSet<Teacher> teachers = getTeacher(values[3]);
+        timetable.setTeacher(popolateTeachers(values[3]));
+        return timetable;
         //return getCourses(values[1]);
 
     }
@@ -113,7 +111,7 @@ public class GsonFormatter {
         return course;
     }
 
-    private HashSet<Teacher> getTeacher(String values) {
+    private HashSet<Teacher> popolateTeachers(String values) {
         HashSet<Teacher> teachers = new HashSet();
         try {
             values = values.replace("}", "");
