@@ -42,9 +42,9 @@ public class UNIVRequest {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Post parameters : " + urlParameters);
-            System.out.println("Response Code : " + responseCode);
+            log.info("Sending 'POST' request to URL : " + url);
+            log.info("Post parameters : " + urlParameters);
+            log.info("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
@@ -58,10 +58,6 @@ public class UNIVRequest {
             //print result
             String str = response.toString();
             arr = str.split("var ");
-            for (String s : arr) {
-                System.out.println(s);
-                System.out.println('\n');;
-            }
             return arr;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
@@ -90,6 +86,11 @@ public class UNIVRequest {
             dataOutputStream.close();
 
             int responseCode = connection.getResponseCode();
+            
+            /*to-do deve essere cacheata
+                inoltre se qualcuno mi chiede questa particolare laurea - corso ok
+                altrimenti non lo chiedo neanche
+            */
             System.out.println("\nSending 'POST' request to URL : " + stringUrl);
             System.out.println("Post parameters : " + urlParameters);
             System.out.println("Response Code : " + responseCode);
@@ -106,10 +107,6 @@ public class UNIVRequest {
             //print results
             String str = response.toString();
             arr = str.split("var ");
-            for (String s : arr) {
-                System.out.println(s);
-                System.out.println('\n');;
-            }
             return arr;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);

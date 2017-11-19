@@ -22,7 +22,8 @@ public class SchedulerDATA extends TimerTask{
     UNIVRequest http = new UNIVRequest();
     
     public void run() {
-        String[] data =http.getData();
+        //to-do deve prendere in input 2 stringhe, il corso e il modulo
+        String[] data = http.getData();
         GsonFormatter json = new GsonFormatter();
         json.formatData(data);
     }

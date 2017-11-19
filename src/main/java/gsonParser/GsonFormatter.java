@@ -36,7 +36,8 @@ public class GsonFormatter {
         timetable.setCourses(popolateCourses(values[1]));
         //HashSet<Teacher> teachers = getTeacher(values[3]);
         timetable.setTeacher(popolateTeachers(values[3]));
-        HashSet<Location> locations = popolateLocation(values[12]);
+        //HashSet<Location> locations = popolateLocation(values[12]);
+        timetable.setLocation(popolateLocation(values[12]));
         return timetable;
         //return getCourses(values[1]);
 
@@ -161,7 +162,6 @@ public class GsonFormatter {
                 parse = strLocation[i].split(",");
                 locations.add(new Location(parse[0], parse[1]));
             }
-            System.out.println("ok");
             log.info("All location successfully created");
         }catch(Exception e){
             log.error(e);
