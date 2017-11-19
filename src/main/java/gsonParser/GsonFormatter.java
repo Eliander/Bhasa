@@ -5,8 +5,11 @@
  */
 package gsonParser;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
 import persistence.Location;
@@ -30,10 +33,10 @@ public class GsonFormatter {
         HashSet<Courses> coursesAndModues = popolateCourses(values[1]);
         HashSet<Teacher> teachers = getTeacher(values[3]);
         System.out.println("$$$$$$");
-        for(Teacher th : teachers){
-            System.out.println(th.getName() + th.getValore());
+        for (Teacher th : teachers) {
+            System.out.println(th.getName() + " " + th.getValore());
         }
-        
+
         System.out.println("$$$$$$");
         return coursesAndModues;
         //return getCourses(values[1]);
@@ -123,6 +126,7 @@ public class GsonFormatter {
             for (int i = 2; i < strTeachers.length; i++) {
                 teachers.add(parseTeacher(strTeachers[i]));
             }
+            log.info("All teachers successfully created");
         } catch (Exception e) {
             log.error(e);
         }
@@ -130,20 +134,22 @@ public class GsonFormatter {
     }
 
     private Teacher parseTeacher(String strTeacher) {
-        /*if(strTeacher.contains("\\")){
+        if (strTeacher.contains("\\")) {
             int index = strTeacher.indexOf("\\");
             String specialChar = strTeacher.substring(index, index + 6);
-            char toInsert = (char) Integer.parseInt(specialChar.substring(1), 16 );
-            strTeacher = new StringBuilder(strTeacher).insert(index, toInsert).toString();
-        }*/
+            //ottengo l'hex del carattere speciale
+            int hexVal = Integer.parseInt(specialChar.substring(2), 16);
+            strTeacher = strTeacher.replace(specialChar, (char)hexVal + "");
+        }
         String[] parse = strTeacher.split("\\$");
-        //tolgo lo spazio iniziale e la virgola del corso
         
+        //tolgo lo spazio iniziale e la virgola del corso
         return new Teacher(parse[0].substring(1), parse[1].substring(1).replace(",", ""));
     }
 
     private HashSet<Location> getLocation(String values) {
         //12
+        log.info("All location successfully created");
         return null;
     }
 
