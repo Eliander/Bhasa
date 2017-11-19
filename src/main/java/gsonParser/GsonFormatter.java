@@ -25,9 +25,9 @@ public class GsonFormatter {
 
     private static org.apache.logging.log4j.Logger log = LogManager.getLogger(GsonFormatter.class);
 
-    public HashSet<Courses> formatData(String[] data) {
-        HashSet<Courses> courses = null;
-        return courses;
+    public Timetable formatData(String[] data) {
+        Timetable timetable = new Timetable();
+        return timetable;
     }
 
     public Timetable formatValues(String[] values) {
@@ -36,6 +36,7 @@ public class GsonFormatter {
         timetable.setCourses(popolateCourses(values[1]));
         //HashSet<Teacher> teachers = getTeacher(values[3]);
         timetable.setTeacher(popolateTeachers(values[3]));
+        HashSet<Location> locations = popolateLocation(values[12]);
         return timetable;
         //return getCourses(values[1]);
 
@@ -89,8 +90,8 @@ public class GsonFormatter {
         return course;
     }
 
-    //dato un corso e una stringa contenente i moduli, restituisce un corso
-    //con tutti i moduli assegnati - usato da getCourses
+    /*dato un corso e una stringa contenente i moduli, restituisce un corso
+    con tutti i moduli assegnati - usato da getCourses*/
     private Courses addModules(Courses course, String modules) {
         //tolgo caratteri sporchi
         modules = modules.replace("}", "");
@@ -142,13 +143,31 @@ public class GsonFormatter {
         String[] parse = strTeacher.split("\\$");
         
         //tolgo lo spazio iniziale e la virgola del corso
+        //to-do: togliere gli spazi di sostituzione : nel parse per eliminare il substring 1
         return new Teacher(parse[0].substring(1), parse[1].substring(1).replace(",", ""));
     }
 
-    private HashSet<Location> getLocation(String values) {
-        //12
-        log.info("All location successfully created");
-        return null;
+    private HashSet<Location> popolateLocation(String values) {
+        HashSet<Location> locations = new HashSet();
+        try {
+            values = values.replace("}", "");
+            values = values.replace("{", " ");
+            values = values.replace(":", "");
+            values = values.replace("\"", "");
+            String[] strLocation = values.split("label");
+            String[] parse;
+            int i;
+            for (i = 1; i < strLocation.length; i ++) {
+                parse = strLocation[i].split(",");
+                locations.add(new Location(parse[0], parse[1]));
+            }
+            System.out.println("ok");
+            log.info("All location successfully created");
+        }catch(Exception e){
+            log.error(e);
+        }
+        
+        return locations;
     }
 
 }
