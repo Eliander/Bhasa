@@ -23,8 +23,6 @@ public class SchedulerDATA extends TimerTask{
     
     public void run() {
         //to-do deve prendere in input 2 stringhe, il corso e il modulo
-        String[] data = http.getData();
-        GsonFormatter json = new GsonFormatter();
-        json.formatData(data);
+        String data = http.getData();
     }
 }
