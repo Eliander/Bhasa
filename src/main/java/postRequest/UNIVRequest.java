@@ -9,10 +9,11 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
+
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -112,8 +113,9 @@ public class UNIVRequest {
             /*Calendar c1 = GregorianCalendar.getInstance();
             c1.set(2017, Calendar.DECEMBER, 19);
             String findData = findData(str, c1);*/
-            String findData = findData(str);
-            return findData;
+            //String findData = findData(str);
+            HashMap<Object, Object> objectObjectHashMap = find(str);
+            return null;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
             return "ERROR";
@@ -216,6 +218,17 @@ public class UNIVRequest {
             
         }
         return result;
+    }
+
+    public HashMap<Object, Object> find(String data){
+        Map<Object, Object> map = new HashMap<Object, Object>(new Gson().fromJson(data, Map.class));
+        Object celle = map.get("celle");
+        ArrayList<LinkedTreeMap> array = new ArrayList<LinkedTreeMap> ((ArrayList) celle);
+        for(int i = 0; i < array.size(); i ++){
+            System.out.println(array.get(i).get("titolo_lezione"));
+        }
+
+        return null;
     }
 
 }
