@@ -50,4 +50,12 @@ public class Normalizer {
         return date;
     }
 
+    public String normalizeString(String s){
+        if(!((s.charAt(0)>='A' && s.charAt(0)<='Z') || (s.charAt(0)>='a' && s.charAt(0)<='z'))){
+            return normalizeString(new String(s.substring(1)));
+        }
+        return s;
+    }
+    
+    
 }

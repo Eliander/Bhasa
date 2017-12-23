@@ -27,8 +27,8 @@ public class SchedulerDATA extends TimerTask{
     public void run() {
         //to-do deve prendere in input 2 stringhe, il corso e il modulo
         Calendar c = new GregorianCalendar();
-        c.set(2017, GregorianCalendar.DECEMBER,13);
+        c.set(2017, GregorianCalendar.DECEMBER,15);
         
-        Timetable data = http.getData("360", "725|1", c);
+        Timetable data = http.getData("420", "999|2", c);
     }
 }

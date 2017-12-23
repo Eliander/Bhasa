@@ -14,6 +14,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import images.ImageCreator;
 import normalizer.Normalizer;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
@@ -26,7 +27,6 @@ import persistence.Timetable;
 public class UNIVRequest {
     // HTTP POST request: combo_call.php, contains values dictionary
 
-    public static Date dataDate, valuesDate;
     public static StringBuilder data, values;
     private final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
@@ -121,6 +121,9 @@ public class UNIVRequest {
             c1.set(2017, Calendar.DECEMBER, 13);*/
             Timetable timetable = find(str, c);
             System.out.println(timetable);
+            ImageCreator i = new ImageCreator();
+            i.drawImage(timetable);
+            
             return timetable;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
@@ -161,7 +164,7 @@ public class UNIVRequest {
                                         }
                                         ...
                     *
-                     */
+                    */
                     //controllo se la data di calendar e segnata come lezione> oggi potrebbe esserci lezione, controlla se e presente nel calendario
                     LinkedTreeMap info = (LinkedTreeMap) course.get("informazioni_lezione");
                     LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
@@ -170,10 +173,9 @@ public class UNIVRequest {
 
                     if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
                         Courses c = new Courses();
-                        c.setLabel((String) (course.get("titolo_lezione")));
-                        c.setTeacher((String) (course.get("docente")));
-                        c.setClassroom((String) (course.get("aula")));
-
+                        c.setLabel(normalizer.normalizeString((String) (course.get("titolo_lezione"))));
+                        c.setTeacher(normalizer.normalizeString((String) (course.get("docente"))));
+                        c.setClassroom(normalizer.normalizeString((String) (course.get("aula"))));
                         String code = (String)course.get("codice_insegnamento");
                         c.setCourseCode(code);
                         
