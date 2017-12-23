@@ -1,6 +1,7 @@
 package persistence;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 /**
@@ -10,22 +11,19 @@ import java.util.Objects;
 public class Courses {
 
     private String label;
-    private String valore;
-    private String pub_type;
-    private ArrayList<Modules> elenco_anni;
+    private String teacher;
+    private String start;
+    private String end;
+    private String classroom;
+    private String courseCode;
 
-    public Courses(String label, String valore, String pub_type, ArrayList<Modules> elenco_anni) {
+    public Courses(String label, String teacher, String start, String end, String classroom, String courseCode) {
         this.label = label;
-        this.valore = valore;
-        this.pub_type = pub_type;
-        this.elenco_anni = elenco_anni;
-    }
-
-    public Courses(String label, String valore, String pub_type) {
-        this.label = label;
-        this.valore = valore;
-        this.pub_type = pub_type;
-        this.elenco_anni = new ArrayList();
+        this.teacher = teacher;
+        this.start = start;
+        this.end = end;
+        this.classroom = classroom;
+        this.courseCode = courseCode;
     }
 
     public Courses() {
@@ -39,50 +37,71 @@ public class Courses {
         this.label = label;
     }
 
-    public String getValore() {
-        return valore;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setValore(String valore) {
-        this.valore = valore;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
-    public String getPub_type() {
-        return pub_type;
+    public String getStart() {
+        return start;
     }
 
-    public void setPub_type(String pub_type) {
-        this.pub_type = pub_type;
+    public void setStart(String start) {
+        this.start = start;
     }
 
-    public ArrayList<Modules> getElenco_anni() {
-        return elenco_anni;
+    public String getEnd() {
+        return end;
     }
 
-    public void setElenco_anni(ArrayList<Modules> elenco_anni) {
-        this.elenco_anni = elenco_anni;
+    public void setEnd(String end) {
+        this.end = end;
     }
 
-    public void addModule(Modules module) {
-        this.elenco_anni.add(module);
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.label);
-        hash = 53 * hash + Objects.hashCode(this.valore);
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.label);
+        hash = 67 * hash + Objects.hashCode(this.courseCode);
         return hash;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other instanceof Courses) {
-            Courses otherCourse = (Courses) other;
-            return label == otherCourse.label && valore == otherCourse.valore;
-        } else {
-            return false;
+    public boolean equals(Object obj) {
+        if(obj instanceof Courses){
+            Courses other = (Courses) obj;
+            if(this.courseCode.equals(other.courseCode)){ 
+                return true;
+            }  
         }
+        return false;
     }
+
+    @Override
+    public String toString() {
+        return label + '\n' + teacher + '\n' + start + " - " + end + '\n' + classroom + '\n' + courseCode + '\n' + '\n';
+    }
+    
+    
+
 
 }

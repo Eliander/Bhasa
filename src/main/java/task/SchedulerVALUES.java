@@ -5,7 +5,6 @@
  */
 package task;
 
-import gsonParser.GsonFormatter;
 import postRequest.UNIVRequest;
 import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +21,5 @@ public class SchedulerVALUES extends TimerTask{
     
     public void run() {
         String[] values = http.getValues();
-        GsonFormatter json = new GsonFormatter();
-        json.formatValues(values);
-        log.info("Values ​​received and parsed correctly");
-        System.out.println("Values ​​received and parsed correctly");
     }
 }

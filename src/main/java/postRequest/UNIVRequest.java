@@ -14,7 +14,10 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import normalizer.Normalizer;
 import org.apache.logging.log4j.LogManager;
+import persistence.Courses;
+import persistence.Timetable;
 
 /**
  *
@@ -25,8 +28,10 @@ public class UNIVRequest {
 
     public static Date dataDate, valuesDate;
     public static StringBuilder data, values;
-    private final String[] months = {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"};
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
+    private final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
+    private final Normalizer normalizer = new Normalizer();
+    private final String urlData = "https://logistica.univr.it/aule/Orario/grid_call.php";
 
     public String[] getValues() {
         String arr[] = null;
@@ -70,16 +75,17 @@ public class UNIVRequest {
     }
 
     // HTTP POST request: grid_call.php, contains data
-    public String getData() {
+    public Timetable getData(String course, String module, Calendar c) {
         String arr[] = null;
+        module = normalizer.normalizeModule(module);
         try {
-            String stringUrl = "https://logistica.univr.it/aule/Orario/grid_call.php";
-            URL url = new URL(stringUrl);
+            URL url = new URL(urlData);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             //set type of connection
             connection.setRequestMethod("POST");
             //set body parameters (not a get)
-            String urlParameters = "form-type=corso&aa=2017&cdl=420&anno=2017&corso=420&anno2=999%7C2&date=23-10-2017&_lang=it&all_events=0";
+            //String urlParameters = "form-type=corso&aa=2017&cdl=420&anno=2017&corso=420&anno2=999%7C2&date=23-10-2017&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + normalizer.normalizeDate(c) + "&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
             // Send post request
@@ -90,12 +96,12 @@ public class UNIVRequest {
             dataOutputStream.close();
 
             int responseCode = connection.getResponseCode();
-            
+
             /*to-do deve essere cacheata
                 inoltre se qualcuno mi chiede questa particolare laurea - corso ok
                 altrimenti non lo chiedo neanche
-            */
-            System.out.println("\nSending 'POST' request to URL : " + stringUrl);
+             */
+            System.out.println("\nSending 'POST' request to URL : " + urlData);
             System.out.println("Post parameters : " + urlParameters);
             System.out.println("Response Code : " + responseCode);
 
@@ -111,124 +117,79 @@ public class UNIVRequest {
             //print results
             String str = response.toString();
             /*Calendar c1 = GregorianCalendar.getInstance();
-            c1.set(2017, Calendar.DECEMBER, 19);
-            String findData = findData(str, c1);*/
-            //String findData = findData(str);
-            HashMap<Object, Object> objectObjectHashMap = find(str);
-            return null;
+            //c1.set(2017, Calendar.DECEMBER, Calendar.DAY_OF_MONTH);
+            c1.set(2017, Calendar.DECEMBER, 13);*/
+            Timetable timetable = find(str, c);
+            System.out.println(timetable);
+            return timetable;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
-            return "ERROR";
+            return null;
         }
     }
-    
+
     /*
     nella chiamata vengono passati TUTTE le lezioni, da settembre a ine semestre.
     Questo metodo prende la data di oggi e estrae le lezioni del giorno.
-    Parsando alla stringa Docenti (o a informazioni_lezione) ottengo tutte le materie del corso e 
+    Parsando alla stringa celle ottengo tutte le materie del corso e 
     le relative lezioni
-    */
-    private String findData(String data){
-        String result = "";
-        Calendar calendar = new GregorianCalendar();
-        String month = months[calendar.get(GregorianCalendar.MONTH)];
-        int day = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        //divido a docenti per trovare le diverse materie
-        String[] dataSplit = data.split("Docenti");
-        dataSplit[0] = "NULL"; //dati di intestazione
-        //elimino tutte le materie che non ho oggi
-        for (int i = 1; i < dataSplit.length; i++) {
-           int indexOfGiorno = dataSplit[i].indexOf("giorno");
-           if(Integer.parseInt(dataSplit[i].charAt(indexOfGiorno + 9) + "")!= calendar.get(GregorianCalendar.DAY_OF_WEEK) - 1){
-               dataSplit[i] = "NULL";
-           }else{//to do: da rimuovere
-               System.out.println("ok");
-           }
-        }
-        for(int i = 0; i < dataSplit.length; i ++){
-            //tengo dalla data al <br>
-            String substring = "";
-            if(!(dataSplit[i].equals("NULL")) && dataSplit[i].contains(day + " " + month)){//di solito fa lezione ma oggi no!
-                String[] splitAtDay = dataSplit[i].split(day + " " + month);
-                //faccio un po di pulizia per gli indici
-                substring = splitAtDay[0].substring(0, splitAtDay[0].indexOf("<br>"));
-                substring = substring.replace("contenuto", "$");
-                substring = substring.replace("nome_insegnamento", "£");
-                substring = substring.replace("codice_aula", "null"); //altrimenti trova il codice aula
-                substring = substring.replace("aula", "#");
-                substring = substring.replace("orario", "%");
-                //salvo gli indici
-                int indexOfTeacher = substring.indexOf("$");
-                int indexOfCourse = substring.indexOf("£");
-                int indexOfLocation = substring.indexOf("#");
-                int indexOfTime = substring.indexOf("%");
-                //mi estraggo i valori
-                String teacher = substring.substring(indexOfTeacher + 4, substring.indexOf(",", indexOfTeacher)- 1);
-                String course = substring.substring(indexOfCourse + 4, substring.indexOf(",", indexOfCourse)- 1);
-                String location = substring.substring(indexOfLocation + 4, substring.indexOf(",", indexOfLocation)- 1);
-                String time = substring.substring(indexOfTime + 4, substring.indexOf(",", indexOfTime)- 1);
-                result = result + teacher + " " + course + " " + location + " " + time + "\n";
-            }
-            
-        }
-        return result;
-    }
-    
-    //se voglio provare altri giorni
-    private String findData(String data, Calendar calendar){
-        String result = "";
-        String month = months[calendar.get(GregorianCalendar.MONTH)];
-        int day = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        //divido a docenti per trovare le diverse materie
-        String[] dataSplit = data.split("Docenti");
-        dataSplit[0] = "NULL"; //dati di intestazione
-        //elimino tutte le materie che non ho oggi
-        for (int i = 1; i < dataSplit.length; i++) {
-           int indexOfGiorno = dataSplit[i].indexOf("giorno");
-           if(Integer.parseInt(dataSplit[i].charAt(indexOfGiorno + 9) + "")!= calendar.get(GregorianCalendar.DAY_OF_WEEK) - 1){
-               dataSplit[i] = "NULL";
-           }else{//to do: da rimuovere
-               System.out.println("ok");
-           }
-        }
-        for(int i = 0; i < dataSplit.length; i ++){
-            //tengo dalla data al <br>
-            String substring = "";
-            if(!(dataSplit[i].equals("NULL")) && dataSplit[i].contains(day + " " + month)){//di solito fa lezione ma oggi no!
-                String[] splitAtDay = dataSplit[i].split(day + " " + month);
-                //faccio un po di pulizia per gli indici
-                substring = splitAtDay[0].substring(0, splitAtDay[0].indexOf("<br>"));
-                substring = substring.replace("contenuto", "$");
-                substring = substring.replace("nome_insegnamento", "£");
-                substring = substring.replace("codice_aula", "null"); //altrimenti trova il codice aula
-                substring = substring.replace("aula", "#");
-                substring = substring.replace("orario", "%");
-                //salvo gli indici
-                int indexOfTeacher = substring.indexOf("$");
-                int indexOfCourse = substring.indexOf("£");
-                int indexOfLocation = substring.indexOf("#");
-                int indexOfTime = substring.indexOf("%");
-                //mi estraggo i valori
-                String teacher = substring.substring(indexOfTeacher + 4, substring.indexOf(",", indexOfTeacher)- 1);
-                String course = substring.substring(indexOfCourse + 4, substring.indexOf(",", indexOfCourse)- 1);
-                String location = substring.substring(indexOfLocation + 4, substring.indexOf(",", indexOfLocation)- 1);
-                String time = substring.substring(indexOfTime + 4, substring.indexOf(",", indexOfTime)- 1);
-                result = result + teacher + " " + course + " " + location + " " + time + "\n";
-            }
-            
-        }
-        return result;
-    }
+     */
+    public Timetable find(String data, Calendar calendar) {
 
-    public HashMap<Object, Object> find(String data){
+        Timetable timetable = new Timetable();
+
         Map<Object, Object> map = new HashMap<Object, Object>(new Gson().fromJson(data, Map.class));
-        Object celle = map.get("celle");
-        ArrayList<LinkedTreeMap> array = new ArrayList<LinkedTreeMap> ((ArrayList) celle);
-        for(int i = 0; i < array.size(); i ++){
-            System.out.println(array.get(i).get("titolo_lezione"));
-        }
+        ArrayList<LinkedTreeMap> array = new ArrayList<LinkedTreeMap>((ArrayList) map.get("celle"));
 
-        return null;
+        int affectedDay = calendar.get(GregorianCalendar.DAY_OF_WEEK) - 1;
+        int getDay;
+        String month = months[calendar.get(GregorianCalendar.MONTH)];
+
+        for (LinkedTreeMap course : array) {
+            //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione
+            try {
+                getDay = Integer.parseInt((String) course.get("giorno"));
+                if (getDay == affectedDay) {
+                    /*
+                    * informazioni_lezione:{
+                            contenuto:{
+                                    8:[
+                                        {0}
+                                        {1:{
+                                            contenuto: dates
+                                            }
+                                        }
+                                        ...
+                    *
+                     */
+                    //controllo se la data di calendar e segnata come lezione> oggi potrebbe esserci lezione, controlla se e presente nel calendario
+                    LinkedTreeMap info = (LinkedTreeMap) course.get("informazioni_lezione");
+                    LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
+                    ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
+                    String d = (String) dates.get(1).get("contenuto");
+
+                    if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
+                        Courses c = new Courses();
+                        c.setLabel((String) (course.get("titolo_lezione")));
+                        c.setTeacher((String) (course.get("docente")));
+                        c.setClassroom((String) (course.get("aula")));
+
+                        String code = (String)course.get("codice_insegnamento");
+                        c.setCourseCode(code);
+                        
+                        String time = (String)(course.get("orario"));
+                        String[] normalizedTime = normalizer.normalizeTime(time);
+                        c.setStart(normalizedTime[0]);
+                        c.setEnd(normalizedTime[1]);
+                        timetable.addCourses(c);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(e);
+                return null;
+            }
+        }
+        return timetable;
     }
 
 }

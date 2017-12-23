@@ -5,11 +5,14 @@
  */
 package task;
 
-import gsonParser.GsonFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import postRequest.UNIVRequest;
 import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import persistence.Timetable;
 
 /**
  *
@@ -23,6 +26,9 @@ public class SchedulerDATA extends TimerTask{
     
     public void run() {
         //to-do deve prendere in input 2 stringhe, il corso e il modulo
-        String data = http.getData();
+        Calendar c = new GregorianCalendar();
+        c.set(2017, GregorianCalendar.DECEMBER,13);
+        
+        Timetable data = http.getData("360", "725|1", c);
     }
 }

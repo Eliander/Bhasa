@@ -1,5 +1,6 @@
 package persistence;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -8,41 +9,38 @@ import java.util.HashSet;
  */
 public class Timetable {
     
-    private HashSet<Courses> courses;
-    private HashSet<Teacher> teacher;
-    private HashSet<Location> location;
+    private ArrayList<Courses> courses;
 
     public Timetable() {
+        
+       this.courses = new ArrayList();
     }
     
-    public Timetable(HashSet<Courses> courses, HashSet<Teacher> teacher, HashSet<Location> location) {
+    public Timetable(ArrayList<Courses> courses) {
         this.courses = courses;
-        this.teacher = teacher;
-        this.location = location;
     }
 
-    public HashSet<Courses> getCourses() {
+    public ArrayList<Courses> getCourses() {
         return courses;
     }
 
-    public void setCourses(HashSet<Courses> courses) {
+    public void setCourses(ArrayList<Courses> courses) {
         this.courses = courses;
     }
-
-    public HashSet<Teacher> getTeacher() {
-        return teacher;
+    
+    public void addCourses(Courses courses) {
+        ArrayList<Courses> c = this.getCourses();
+        c.add(courses);
+        setCourses(c);
     }
 
-    public void setTeacher(HashSet<Teacher> teacher) {
-        this.teacher = teacher;
-    }
-
-    public HashSet<Location> getLocation() {
-        return location;
-    }
-
-    public void setLocation(HashSet<Location> location) {
-        this.location = location;
-    }
+    @Override
+    public String toString() {
+        String result = "";
+        for(Courses c : courses){
+            result += c.toString();
+        }
+        return result;
+    }    
     
 }
