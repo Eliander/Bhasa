@@ -1,7 +1,8 @@
 package persistence;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
+import normalizer.Normalizer;
 
 /**
  *
@@ -10,6 +11,7 @@ import java.util.HashSet;
 public class Timetable {
     
     private ArrayList<Courses> courses;
+    private final Normalizer normalizer = new Normalizer();
 
     public Timetable() {
         
@@ -43,4 +45,19 @@ public class Timetable {
         return result;
     }    
     
+    public void sortTimetable(){
+        ArrayList<Courses> newArray = new ArrayList();
+        Map<Float, Courses> map = new HashMap();
+        
+        for(int i = 0; i < courses.size(); i ++){
+            map.put(Float.parseFloat(normalizer.normalizeForCompare(courses.get(i).getStart())), courses.get(i));
+        }
+        float min;
+        while(map.size() > 0){
+            min = Collections.min(map.keySet());
+            newArray.add(map.get(min));
+            map.remove(min);
+        }
+        this.setCourses(newArray);
+    }
 }

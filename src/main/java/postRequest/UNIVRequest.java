@@ -121,6 +121,9 @@ public class UNIVRequest {
             c1.set(2017, Calendar.DECEMBER, 13);*/
             Timetable timetable = find(str, c);
             System.out.println(timetable);
+            
+            timetable.sortTimetable();
+            
             ImageCreator i = new ImageCreator();
             i.drawImage(timetable);
             
@@ -152,7 +155,7 @@ public class UNIVRequest {
             //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione
             try {
                 getDay = Integer.parseInt((String) course.get("giorno"));
-                if (getDay == affectedDay) {
+                //if (getDay == affectedDay) { necessario per le lezioni fuori orario
                     /*
                     * informazioni_lezione:{
                             contenuto:{
@@ -172,6 +175,7 @@ public class UNIVRequest {
                     String d = (String) dates.get(1).get("contenuto");
 
                     if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
+                        String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
                         Courses c = new Courses();
                         c.setLabel(normalizer.normalizeString((String) (course.get("titolo_lezione"))));
                         c.setTeacher(normalizer.normalizeString((String) (course.get("docente"))));
@@ -179,13 +183,15 @@ public class UNIVRequest {
                         String code = (String)course.get("codice_insegnamento");
                         c.setCourseCode(code);
                         
-                        String time = (String)(course.get("orario"));
-                        String[] normalizedTime = normalizer.normalizeTime(time);
+                        //String time = (String)(course.get("orario"));
+                        int index = d.indexOf(soughtDay);
+                        String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
+                        String[] normalizedTime = normalizer.normalizeTime(substringTime);
                         c.setStart(normalizedTime[0]);
                         c.setEnd(normalizedTime[1]);
                         timetable.addCourses(c);
                     }
-                }
+                //}
             } catch (Exception e) {
                 log.error(e);
                 return null;

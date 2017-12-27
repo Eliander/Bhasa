@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Elia
  */
-public class Courses {
+public class Courses{
 
     private String label;
     private String teacher;
@@ -100,8 +100,4 @@ public class Courses {
     public String toString() {
         return label + '\n' + teacher + '\n' + start + " - " + end + '\n' + classroom + '\n' + courseCode + '\n' + '\n';
     }
-    
-    
-
-
 }

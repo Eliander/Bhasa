@@ -7,18 +7,12 @@ package images;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
-import persistence.Courses;
 import persistence.Timetable;
 
 /**
@@ -44,15 +38,19 @@ public class ImageCreator {
                 String message = timetable.getCourses().get(i).getLabel();
                 g2d.fillRect(0, base, width, 100);
                 g2d.setPaint(Color.black);
-                g2d.drawString(message, 50, base + 50);
+                g2d.drawString(message, 50, base + 30);
+                message = timetable.getCourses().get(i).getStart() + " - " + timetable.getCourses().get(i).getEnd();
+                g2d.drawString(message, 50, base + 30 + g2d.getFontMetrics().getHeight());
+                message = timetable.getCourses().get(i).getClassroom();
+                g2d.drawString(message, 50, base + 30 + 2*(g2d.getFontMetrics().getHeight()));
                 base += 100;
             }
             g2d.setColor(Color.white);//serve per settare lo sfondo a bianco
             g2d.fillRect(0, base, width, 100);
-            //to-do salvare nel path relativo dell utente
+            //to-do salvare nel path relativo al corso/giorno
             ImageIO.write(bi, "PNG", new File("D:\\Users\\Elia\\Documents\\NetBeansProjects\\Bhasa\\src\\main\\resources\\orario.png"));
-
-
+            //to-do aggiungere l'orario della lezione di lato
+            
         } catch (IOException ie) {
             ie.printStackTrace();
         }

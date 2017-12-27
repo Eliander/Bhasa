@@ -5,10 +5,10 @@
  */
 package normalizer;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import persistence.Timetable;
 
 /**
  *
@@ -30,6 +30,11 @@ public class Normalizer {
         String[] split = s.split("-");
         return split;
     }
+    
+    public String normalizeForCompare(String s){
+        s = s.replace(":", ".");
+        return s;
+    }
 
     public String normalizeModule(String s) {
         s.replace("|", "%7C");
@@ -50,12 +55,14 @@ public class Normalizer {
         return date;
     }
 
-    public String normalizeString(String s){
-        if(!((s.charAt(0)>='A' && s.charAt(0)<='Z') || (s.charAt(0)>='a' && s.charAt(0)<='z'))){
+    public String normalizeString(String s) {
+        if (!((s.charAt(0) >= 'A' && s.charAt(0) <= 'Z') || (s.charAt(0) >= 'a' && s.charAt(0) <= 'z'))) {
             return normalizeString(new String(s.substring(1)));
         }
         return s;
     }
-    
-    
+
+    public void sortTimetable(Timetable t) {
+    }
+
 }
