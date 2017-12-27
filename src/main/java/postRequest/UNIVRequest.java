@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import images.ImageCreator;
-import normalizer.Normalizer;
+import utilities.Utilities;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
 import persistence.Timetable;
@@ -30,7 +30,7 @@ public class UNIVRequest {
     public static StringBuilder data, values;
     private final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
-    private final Normalizer normalizer = new Normalizer();
+    private final Utilities utility = new Utilities();
     private final String urlData = "https://logistica.univr.it/aule/Orario/grid_call.php";
 
     public String[] getValues() {
@@ -77,7 +77,7 @@ public class UNIVRequest {
     // HTTP POST request: grid_call.php, contains data
     public Timetable getData(String course, String module, Calendar c) {
         String arr[] = null;
-        module = normalizer.normalizeModule(module);
+        module = utility.normalizeModule(module);
         try {
             URL url = new URL(urlData);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -85,7 +85,7 @@ public class UNIVRequest {
             connection.setRequestMethod("POST");
             //set body parameters (not a get)
             //String urlParameters = "form-type=corso&aa=2017&cdl=420&anno=2017&corso=420&anno2=999%7C2&date=23-10-2017&_lang=it&all_events=0";
-            String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + normalizer.normalizeDate(c) + "&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
             // Send post request
@@ -176,16 +176,16 @@ public class UNIVRequest {
                     if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
                         String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
                         Courses c = new Courses();
-                        c.setLabel(normalizer.normalizeString((String) (course.get("titolo_lezione"))));
-                        c.setTeacher(normalizer.normalizeString((String) (course.get("docente"))));
-                        c.setClassroom(normalizer.normalizeString((String) (course.get("aula"))));
+                        c.setLabel(utility.normalizeString((String) (course.get("titolo_lezione"))));
+                        c.setTeacher(utility.normalizeString((String) (course.get("docente"))));
+                        c.setClassroom(utility.normalizeString((String) (course.get("aula"))));
                         String code = (String)course.get("codice_insegnamento");
                         c.setCourseCode(code);
                         
                         //String time = (String)(course.get("orario"));
                         int index = d.indexOf(soughtDay);
                         String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
-                        String[] normalizedTime = normalizer.normalizeTime(substringTime);
+                        String[] normalizedTime = utility.normalizeTime(substringTime);
                         c.setStart(normalizedTime[0]);
                         c.setEnd(normalizedTime[1]);
                         timetable.addCourses(c);

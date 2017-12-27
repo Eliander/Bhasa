@@ -2,7 +2,7 @@ package persistence;
 
 import java.util.ArrayList;
 import java.util.*;
-import normalizer.Normalizer;
+import utilities.Utilities;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Timetable {
     private ArrayList<Courses> courses;
     private String graduation;
     
-    private final Normalizer normalizer = new Normalizer();
+    private final Utilities utility = new Utilities();
 
     public Timetable() {
        this.courses = new ArrayList();
@@ -60,7 +60,7 @@ public class Timetable {
         Map<Float, Courses> map = new HashMap();
         
         for(int i = 0; i < courses.size(); i ++){
-            map.put(Float.parseFloat(normalizer.normalizeForCompare(courses.get(i).getStart())), courses.get(i));
+            map.put(Float.parseFloat(utility.normalizeForCompare(courses.get(i).getStart())), courses.get(i));
         }
         float min;
         while(map.size() > 0){

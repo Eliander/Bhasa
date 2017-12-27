@@ -6,11 +6,14 @@
 package bhasa;
 
 import images.ImageCreator;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import persistence.Courses;
 import persistence.Timetable;
+import postRequest.UNIVRequest;
 import task.Timed;
 
 /**
@@ -21,7 +24,7 @@ public class Main {
     //soppiantata dal main del bot
 
     private static Logger log = LogManager.getLogger(Main.class);
-    public static final String nameProject = "Bhasa";
+    
     private Properties config = new Properties();
 
     public static void main(String[] args) {
@@ -31,10 +34,22 @@ public class Main {
         int intDATA = 3600000;
         int intVALUES = 86400000;
         images.ImageCreator i = new ImageCreator();
-        
+
+        //da rimuovere dopo debug
+        UNIVRequest http = new UNIVRequest();
+        //end rimozione
+
         try {
             log.info("Start timer");
-            Timed start = new Timed(intDATA, intVALUES);
+            //Timed start = new Timed(intDATA, intVALUES);
+            //non serve ora continuare a chiedere
+            //da rimuovere dopo debug
+            Calendar c = new GregorianCalendar();
+            c.set(2017, GregorianCalendar.DECEMBER, 4);
+
+            //Timetable data = http.getData("274", "999|2", c);
+            Timetable data = http.getData("385", "715|1", c); // del 4 dicembre non funziona
+            //end rimozione
         } catch (Exception e) {
             log.error(e);
         }
