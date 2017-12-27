@@ -1,16 +1,6 @@
-11:45:58.630 [main][INFO][bhasa.Main] Start timer
-11:45:58.818 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values
-11:45:58.818 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
-11:45:59.115 [Timer-1][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
-11:45:59.115 [Timer-1][INFO][postRequest.UNIVRequest] Post parameters : _=111111
-11:45:59.115 [Timer-1][INFO][postRequest.UNIVRequest] Response Code : 200
-11:46:00.240 [Timer-0][ERROR][postRequest.UNIVRequest] postRequest.UNIVRequest
-java.lang.NumberFormatException: For input string: "10,30"
-	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2043) ~[?:1.8.0_101]
-	at sun.misc.FloatingDecimal.parseFloat(FloatingDecimal.java:122) ~[?:1.8.0_101]
-	at java.lang.Float.parseFloat(Float.java:451) ~[?:1.8.0_101]
-	at persistence.Timetable.sortTimetable(Timetable.java:53) ~[classes/:?]
-	at postRequest.UNIVRequest.getData(UNIVRequest.java:126) [classes/:?]
-	at task.SchedulerDATA.run(SchedulerDATA.java:33) [classes/:?]
-	at java.util.TimerThread.mainLoop(Timer.java:555) [?:1.8.0_101]
-	at java.util.TimerThread.run(Timer.java:505) [?:1.8.0_101]
+12:15:00.088 [main][INFO][bhasa.Main] Start timer
+12:15:00.282 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values
+12:15:00.283 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
+12:15:00.595 [Timer-1][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
+12:15:00.595 [Timer-1][INFO][postRequest.UNIVRequest] Post parameters : _=111111
+12:15:00.595 [Timer-1][INFO][postRequest.UNIVRequest] Response Code : 200

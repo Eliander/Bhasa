@@ -11,15 +11,17 @@ import normalizer.Normalizer;
 public class Timetable {
     
     private ArrayList<Courses> courses;
+    private String graduation;
+    
     private final Normalizer normalizer = new Normalizer();
 
     public Timetable() {
-        
        this.courses = new ArrayList();
     }
-    
-    public Timetable(ArrayList<Courses> courses) {
+
+    public Timetable(ArrayList<Courses> courses, String graduation) {
         this.courses = courses;
+        this.graduation = graduation;
     }
 
     public ArrayList<Courses> getCourses() {
@@ -34,6 +36,14 @@ public class Timetable {
         ArrayList<Courses> c = this.getCourses();
         c.add(courses);
         setCourses(c);
+    }
+
+    public String getGraduation() {
+        return graduation;
+    }
+
+    public void setGraduation(String graduation) {
+        this.graduation = graduation;
     }
 
     @Override

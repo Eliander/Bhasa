@@ -21,6 +21,7 @@ public class Main {
     //soppiantata dal main del bot
 
     private static Logger log = LogManager.getLogger(Main.class);
+    public static final String nameProject = "Bhasa";
     private Properties config = new Properties();
 
     public static void main(String[] args) {

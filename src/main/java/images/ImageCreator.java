@@ -5,6 +5,7 @@
  */
 package images;
 
+import static bhasa.Main.nameProject;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -33,6 +34,7 @@ public class ImageCreator {
             Graphics2D g2d = bi.createGraphics();
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 12));
             g2d.setBackground(Color.WHITE);
+
             for (int i = 0; i < timetable.getCourses().size(); i++) {
                 g2d.setColor(randomColor());
                 String message = timetable.getCourses().get(i).getLabel();
@@ -42,15 +44,18 @@ public class ImageCreator {
                 message = timetable.getCourses().get(i).getStart() + " - " + timetable.getCourses().get(i).getEnd();
                 g2d.drawString(message, 50, base + 30 + g2d.getFontMetrics().getHeight());
                 message = timetable.getCourses().get(i).getClassroom();
-                g2d.drawString(message, 50, base + 30 + 2*(g2d.getFontMetrics().getHeight()));
+                g2d.drawString(message, 50, base + 30 + 2 * (g2d.getFontMetrics().getHeight()));
                 base += 100;
             }
+
             g2d.setColor(Color.white);//serve per settare lo sfondo a bianco
             g2d.fillRect(0, base, width, 100);
             //to-do salvare nel path relativo al corso/giorno
-            ImageIO.write(bi, "PNG", new File("D:\\Users\\Elia\\Documents\\NetBeansProjects\\Bhasa\\src\\main\\resources\\orario.png"));
+            File file = new File("..\\" + nameProject + "\\src\\main\\resources\\" + timetable.getGraduation() + "\\orario.png");
+            file.mkdirs();
+            ImageIO.write(bi, "PNG", file);
             //to-do aggiungere l'orario della lezione di lato
-            
+
         } catch (IOException ie) {
             ie.printStackTrace();
         }

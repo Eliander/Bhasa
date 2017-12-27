@@ -116,9 +116,6 @@ public class UNIVRequest {
 
             //print results
             String str = response.toString();
-            /*Calendar c1 = GregorianCalendar.getInstance();
-            //c1.set(2017, Calendar.DECEMBER, Calendar.DAY_OF_MONTH);
-            c1.set(2017, Calendar.DECEMBER, 13);*/
             Timetable timetable = find(str, c);
             System.out.println(timetable);
             
@@ -172,6 +169,8 @@ public class UNIVRequest {
                     LinkedTreeMap info = (LinkedTreeMap) course.get("informazioni_lezione");
                     LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
                     ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
+                    ArrayList<LinkedTreeMap> graduation = (ArrayList<LinkedTreeMap>) content.get("7");
+                    
                     String d = (String) dates.get(1).get("contenuto");
 
                     if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
@@ -190,6 +189,11 @@ public class UNIVRequest {
                         c.setStart(normalizedTime[0]);
                         c.setEnd(normalizedTime[1]);
                         timetable.addCourses(c);
+                        
+                        String grade = (String)graduation.get(0).get("contenuto");
+                        int start = grade.indexOf("[");
+                        int end = grade.indexOf("]");
+                        timetable.setGraduation(grade.substring(start + 1, end));
                     }
                 //}
             } catch (Exception e) {
