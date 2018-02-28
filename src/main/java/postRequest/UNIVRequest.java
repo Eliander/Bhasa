@@ -15,6 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import images.ImageCreator;
+import java.io.OutputStreamWriter;
 import utilities.Utilities;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
@@ -84,17 +85,20 @@ public class UNIVRequest {
             //set type of connection
             connection.setRequestMethod("POST");
             //set body parameters (not a get)
-            //String urlParameters = "form-type=corso&aa=2017&cdl=420&anno=2017&corso=420&anno2=999%7C2&date=23-10-2017&_lang=it&all_events=0";
-            String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+
+            //Old params: dont remove. they are son of devil, they could change this every day
+            //String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2018&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            //String urlParameters = "form-type=corso&anno=2017&corso=420&anno2=999%7C2&date=28-02-2018&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
             // Send post request
             connection.setDoOutput(true);
             DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-            dataOutputStream.writeBytes(urlParameters);
+            dataOutputStream.writeUTF(urlParameters);
             dataOutputStream.flush();
             dataOutputStream.close();
-
+            
             int responseCode = connection.getResponseCode();
 
             /*to-do deve essere cacheata
