@@ -17,10 +17,11 @@ import persistence.Timetable;
  * @author Elia
  */
 public class Utilities {
-    
+        
     private Random random = new Random();
-    public final String nameProject = "Bhasa";
-    public String[] colours = {"#FFFCB1","#FFE6BB","#B9F4FF","#F3BAF5","#F1D0D0",
+    public final String NAME_PROJECT = "Bhasa";
+    public final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
+    public final String[] colours = {"#FFFCB1","#FFE6BB","#B9F4FF","#F3BAF5","#F1D0D0",
         "#D5FFA4","#FDCBFE","#A0F3A2","#FFE8A4","#FFC6A4","#EEC0C0","#A7C7D3",
         "#80D886","#A6E2FF","#DDFF75","#FFBFCF","#8CB1FF","#FEE080","#DC8080",
         "#FFB480","#A9F580","#A6F9A2","#C6DBE1","#F99ECD","#C5C6FC","#FDC100",
@@ -90,7 +91,13 @@ public class Utilities {
     }
 
     public String normalizeDate(Calendar c) {
-        return "" + c.get(GregorianCalendar.DAY_OF_MONTH) + "-" + c.get(GregorianCalendar.MONTH) + "-" + c.get(GregorianCalendar.YEAR);
+        String month;
+        if ((c.get(GregorianCalendar.MONTH) + 1) < 10){
+            month = "0" + (c.get(GregorianCalendar.MONTH) + 1);
+        }else{
+            month = "" + (c.get(GregorianCalendar.MONTH) + 1);
+        }
+        return "" + c.get(GregorianCalendar.DAY_OF_MONTH) + "-" + month + "-" + c.get(GregorianCalendar.YEAR);
     }
 
     public Date dateFromString(String s) {

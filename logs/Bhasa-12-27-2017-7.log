@@ -1,12 +1,2 @@
-17:08:52.240 [main][INFO][bhasa.Main] Start timer
-17:08:52.443 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values
-17:08:52.443 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
-17:08:52.756 [Timer-1][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
-17:08:52.756 [Timer-1][INFO][postRequest.UNIVRequest] Post parameters : _=111111
-17:08:52.756 [Timer-1][INFO][postRequest.UNIVRequest] Response Code : 200
-17:09:28.511 [main][INFO][bhasa.Main] Start timer
-17:09:28.729 [Timer-0][INFO][postRequest.UNIVRequest] Send POST request - data
-17:09:28.729 [Timer-1][INFO][postRequest.UNIVRequest] Send POST request - values
-17:09:29.057 [Timer-1][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
-17:09:29.057 [Timer-1][INFO][postRequest.UNIVRequest] Post parameters : _=111111
-17:09:29.057 [Timer-1][INFO][postRequest.UNIVRequest] Response Code : 200
+17:34:37.632 [main][INFO][bhasa.Main] Start timer
+17:34:37.835 [main][INFO][postRequest.UNIVRequest] Send POST request - data

@@ -15,7 +15,6 @@ import javax.net.ssl.HttpsURLConnection;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import images.ImageCreator;
-import java.io.OutputStreamWriter;
 import utilities.Utilities;
 import org.apache.logging.log4j.LogManager;
 import persistence.Courses;
@@ -29,7 +28,7 @@ public class UNIVRequest {
     // HTTP POST request: combo_call.php, contains values dictionary
 
     public static StringBuilder data, values;
-    private final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
+    
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
     private final Utilities utility = new Utilities();
     private final String urlData = "https://logistica.univr.it/aule/Orario/grid_call.php";
@@ -136,7 +135,7 @@ public class UNIVRequest {
     }
 
     /*
-    nella chiamata vengono passati TUTTE le lezioni, da settembre a ine semestre.
+    nella chiamata vengono passati TUTTE le lezioni, da settembre a fine semestre.
     Questo metodo prende la data di oggi e estrae le lezioni del giorno.
     Parsando alla stringa celle ottengo tutte le materie del corso e 
     le relative lezioni
@@ -148,9 +147,8 @@ public class UNIVRequest {
         Map<Object, Object> map = new HashMap<Object, Object>(new Gson().fromJson(data, Map.class));
         ArrayList<LinkedTreeMap> array = new ArrayList<LinkedTreeMap>((ArrayList) map.get("celle"));
 
-        int affectedDay = calendar.get(GregorianCalendar.DAY_OF_WEEK) - 1;
         int getDay;
-        String month = months[calendar.get(GregorianCalendar.MONTH)];
+        String month = utility.months[calendar.get(GregorianCalendar.MONTH)];
 
         for (LinkedTreeMap course : array) {
             //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione
@@ -199,7 +197,6 @@ public class UNIVRequest {
                         int end = grade.indexOf("]");
                         timetable.setGraduation(grade.substring(start + 1, end));
                     }
-                //}
             } catch (Exception e) {
                 log.error(e);
                 return null;

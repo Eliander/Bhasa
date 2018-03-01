@@ -11,10 +11,8 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import persistence.Courses;
 import persistence.Timetable;
 import postRequest.UNIVRequest;
-import task.Timed;
 
 /**
  *
@@ -45,10 +43,10 @@ public class Main {
             //non serve ora continuare a chiedere
             //da rimuovere dopo debug
             Calendar c = new GregorianCalendar();
-            c.set(2017, GregorianCalendar.DECEMBER, 4);
+            c.set(2018, GregorianCalendar.MARCH, 1);
 
-            //Timetable data = http.getData("274", "999|2", c);
-            Timetable data = http.getData("385", "715|1", c); // del 4 dicembre non funziona
+            Timetable data = http.getData("420", "999%7C2", c);
+            //Timetable data = http.getData("385", "715|1", c); // del 4 dicembre non funziona
             //end rimozione
         } catch (Exception e) {
             log.error(e);
