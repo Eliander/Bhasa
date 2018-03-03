@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.derby.jdbc.ClientDriver;
 
 public class DAOSettings {
     
@@ -32,9 +33,15 @@ public class DAOSettings {
     public final static String URLMYSQL = "jdbc:mysql://" + HOST + "/" + NOMEDB;
     public final static String URLPOSTGRES = "jdbc:postgresql://" + HOST + "/" + NOMEDB;
     public final static String URLDERBY = "jdbc:derby://" + HOST + ":1527/" + NOMEDB;
+    
     private static BasicDataSource ds;
+    
+    private GraduationDAO graduationDAO = new GraduationDAO();
+    private ImagesDAO imageDAO = new ImagesDAO();
 
     private static Logger log = LogManager.getLogger(DAOSettings.class);
+    
+    public static DAOSettings DAO = new DAOSettings();
     
     public DAOSettings(){
         ds = new BasicDataSource();
@@ -58,4 +65,11 @@ public class DAOSettings {
         return con;
     }
 
+    public GraduationDAO getGraduationDAO() {
+        return graduationDAO;
+    }
+
+    public ImagesDAO getImageDAO() {
+        return imageDAO;
+    }
 }
