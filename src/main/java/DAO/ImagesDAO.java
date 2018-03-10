@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class ImagesDAO {
     
     private final String SELECT = "SELECT TELEGRAMIMAGEID, DATE FROM IMAGES WHERE GRADUATION = ?";
+    private final String UPDATE = "UPDATE IMAGES SET TELEGRAMIMAGEID = ? date = ? WHERE GRADUATION = ?";
     //to-do update che chiama imageCreator che salva un inputStream;
     
     public String getTelegramCode(int graduation){
@@ -35,6 +36,10 @@ public class ImagesDAO {
             System.out.println(ex);
         }
         return null;
+    }
+    
+    public boolean updateImage(){
+        return true;
     }
     
     private boolean isValidDate(Date date){
