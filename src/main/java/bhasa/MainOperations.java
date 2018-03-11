@@ -14,10 +14,10 @@ import postRequest.UNIVRequest;
  *
  * @author Elia
  */
-public class Main {
+public class MainOperations {
     //soppiantata dal main del bot
 
-    private static Logger log = LogManager.getLogger(Main.class);
+    private static Logger log = LogManager.getLogger(MainOperations.class);
     
     private Properties config = new Properties();
     
@@ -46,6 +46,7 @@ public class Main {
             Calendar c = new GregorianCalendar();
             c.set(2018, GregorianCalendar.MARCH, 1);
 
+            http.getValues();
             Timetable data = http.getData(graduation + "", "999%7C2", c);
             //Timetable data = http.getData("385", "715|1", c); // del 4 dicembre non funziona
             //end rimozione

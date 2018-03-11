@@ -199,5 +199,12 @@ public class UNIVRequest {
         }
         return timetable;
     }
+    
+    public String getGraduation(String values){
+        values.replace("[", "$");
+        values.replace("[", "$");
+        values = values.replaceAll("\\[.*?\\]", "");
+        return values;
+    }
 
 }
