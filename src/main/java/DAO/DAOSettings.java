@@ -36,8 +36,9 @@ public class DAOSettings {
     
     private static BasicDataSource ds;
     
-    private GraduationDAO graduationDAO = new GraduationDAO();
-    private ImagesDAO imageDAO = new ImagesDAO();
+    private static final GraduationDAO graduationDAO = new GraduationDAO();
+    private static final ImagesDAO imageDAO = new ImagesDAO();
+    private static final CommandDAO commandDAO = new CommandDAO();
 
     private static Logger log = LogManager.getLogger(DAOSettings.class);
     
@@ -71,5 +72,9 @@ public class DAOSettings {
 
     public ImagesDAO getImageDAO() {
         return imageDAO;
+    }
+    
+    public CommandDAO getCommandDAO(){
+        return commandDAO;
     }
 }

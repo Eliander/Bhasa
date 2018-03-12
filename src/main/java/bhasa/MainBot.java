@@ -5,6 +5,7 @@
  */
 package bhasa;
 
+import DAO.DAOSettings;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -15,6 +16,9 @@ import telegramBot.UNIVRTimeBot;
  * @author Elia
  */
 public class MainBot {
+    
+    public static DAOSettings dao = DAOSettings.DAO; 
+    
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();

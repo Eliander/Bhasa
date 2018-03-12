@@ -5,7 +5,6 @@
  */
 package telegramBot;
 
-import bhasa.MainOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.objects.Update;
@@ -14,6 +13,7 @@ import Controller.Controller;
 import Controller.ControllerError;
 import Controller.ControllerSelectGraduation;
 import Controller.ControllerStart;
+import bhasa.MainBot;
 
 /**
  *
@@ -37,18 +37,17 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String message = update.getMessage().getText();
             Controller controller;
-            if (message.contains(start_command)) {
-                controller = new ControllerStart();
-            } else if (message.contains(set_graduation)) {
-                if (message.equals(set_graduation)) {
+            switch(message){
+                case start_command:
+                    controller = new ControllerStart();
+                    break;
+                case set_graduation:
                     controller = new ControllerSelectGraduation();
-                }else{
-                    controller = new ControllerSelectGraduation(message.replace(set_graduation, ""));
-                }
-            } else {
-                //hai inserito un comando non valido
-                controller = new ControllerError();
+                    break;
+                default:
+                    controller = selectController(chatId, message);
             }
+                
 
             controller.send(chatId, this);
         }
@@ -57,6 +56,28 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return "UNIVRTimeBot";
+    }
+
+   /*
+    *
+    * Telegram non supporta le sessioni. Per risolvere ogni volta che uso un comando che richiede l'interazione
+    * con l'utente, lo salvo su db. Quando ricevo una risposta che non corrisponde a nessuno dei comandi vado a 
+    * vedere su db qual era l'ultimo comando inserito, questo mi indica che l'opzione inviata corrisponde alla risposta
+    * dell'utente. Posso gestire cosi il tutto
+    *
+    */
+    private Controller selectController(long chatID, String message) {
+        Controller controller = null;
+        String lastCommand = MainBot.dao.getCommandDAO().getLastCommand(chatID + "");
+        switch (lastCommand){
+            case set_graduation:
+                controller = new ControllerSelectGraduation(message);
+                break;
+            default:
+                //hai inserito un comando o un'opzione non valido
+                controller = new ControllerError();
+        }
+        return controller;
     }
 
 }

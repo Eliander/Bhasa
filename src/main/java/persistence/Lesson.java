@@ -1,14 +1,12 @@
 package persistence;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 /**
  *
  * @author Elia
  */
-public class Courses{
+public class Lesson{
 
     private String label;
     private String teacher;
@@ -17,7 +15,7 @@ public class Courses{
     private String classroom;
     private String courseCode;
 
-    public Courses(String label, String teacher, String start, String end, String classroom, String courseCode) {
+    public Lesson(String label, String teacher, String start, String end, String classroom, String courseCode) {
         this.label = label;
         this.teacher = teacher;
         this.start = start;
@@ -26,7 +24,7 @@ public class Courses{
         this.courseCode = courseCode;
     }
 
-    public Courses() {
+    public Lesson() {
     }
 
     public String getLabel() {
@@ -87,8 +85,8 @@ public class Courses{
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Courses){
-            Courses other = (Courses) obj;
+        if(obj instanceof Lesson){
+            Lesson other = (Lesson) obj;
             if(this.courseCode.equals(other.courseCode)){ 
                 return true;
             }  

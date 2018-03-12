@@ -10,7 +10,7 @@ import utilities.Utilities;
  */
 public class Timetable {
     
-    private ArrayList<Courses> courses;
+    private ArrayList<Lesson> courses;
     private String graduation;
     
     private final Utilities utility = new Utilities();
@@ -19,21 +19,21 @@ public class Timetable {
        this.courses = new ArrayList();
     }
 
-    public Timetable(ArrayList<Courses> courses, String graduation) {
+    public Timetable(ArrayList<Lesson> courses, String graduation) {
         this.courses = courses;
         this.graduation = graduation;
     }
 
-    public ArrayList<Courses> getCourses() {
+    public ArrayList<Lesson> getCourses() {
         return courses;
     }
 
-    public void setCourses(ArrayList<Courses> courses) {
+    public void setCourses(ArrayList<Lesson> courses) {
         this.courses = courses;
     }
     
-    public void addCourses(Courses courses) {
-        ArrayList<Courses> c = this.getCourses();
+    public void addCourses(Lesson courses) {
+        ArrayList<Lesson> c = this.getCourses();
         c.add(courses);
         setCourses(c);
     }
@@ -49,15 +49,15 @@ public class Timetable {
     @Override
     public String toString() {
         String result = "";
-        for(Courses c : courses){
+        for(Lesson c : courses){
             result += c.toString();
         }
         return result;
     }    
     
     public void sortTimetable(){
-        ArrayList<Courses> newArray = new ArrayList();
-        Map<Float, Courses> map = new HashMap();
+        ArrayList<Lesson> newArray = new ArrayList();
+        Map<Float, Lesson> map = new HashMap();
         
         for(int i = 0; i < courses.size(); i ++){
             map.put(Float.parseFloat(utility.normalizeForCompare(courses.get(i).getStart())), courses.get(i));

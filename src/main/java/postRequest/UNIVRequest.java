@@ -12,7 +12,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import images.ImageCreator;
 import utilities.Utilities;
 import org.apache.logging.log4j.LogManager;
-import persistence.Courses;
+import persistence.Lesson;
 import persistence.Timetable;
 
 /**
@@ -172,7 +172,7 @@ public class UNIVRequest {
 
                     if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
                         String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
-                        Courses c = new Courses();
+                        Lesson c = new Lesson();
                         c.setLabel(utility.normalizeString((String) (course.get("titolo_lezione"))));
                         c.setTeacher(utility.normalizeString((String) (course.get("docente"))));
                         c.setClassroom(utility.normalizeString((String) (course.get("aula"))));

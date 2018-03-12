@@ -1,5 +1,6 @@
 package Controller;
 
+import bhasa.MainBot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
@@ -18,21 +19,26 @@ public class ControllerSelectGraduation extends Controller {
     private static final Logger log = LogManager.getLogger(ControllerSelectGraduation.class);
     private static final UNIVRequest request = new UNIVRequest();
 
+    private String option = null;
+
     public ControllerSelectGraduation() {
         super("/setGraduation");
     }
 
     public ControllerSelectGraduation(String option) {
-        super("/setGraduation", option);
+        super("/setGraduation");
+        this.option = option;
     }
 
     @Override
     public boolean send(long chatId, DefaultAbsSender bot) {
         SendMessage message;
         if (this.option == null) {
-            message = new SendMessage(chatId, "Scrivi accanto al comando /setGraduation il tuo corso di laurea: " + "\n" + "es: /setGraduation informatica");
+            message = new SendMessage(chatId, "Scrivi il tuo corso di laurea: " + "\n" + "es: informatica");
+            //aggiorno nel db i dati dell'ultimo comando
+            MainBot.dao.getCommandDAO().updateLastCommand(chatId + "", this.command);
         } else {
-            HashMap<Integer, String> graduations = getPossibleGraduation("informatica");
+            HashMap<Integer, String> graduations = getPossibleGraduation(option);
             message = new SendMessage(chatId, printGraduation(graduations));
         }
         try {
@@ -72,8 +78,15 @@ public class ControllerSelectGraduation extends Controller {
 
     private String printGraduation(HashMap<Integer, String> values) {
         String result = "";
-        for (int i : values.keySet()) {
-            result = result + "/" + values.get(i) + "\n";
+        if (values.isEmpty()) {
+            result = "Spiacente, non è stato trovato nessun corso di laurea con quel nome. Sicuro di aver scritto giusto?";
+        } else if (values.size() > 1) {
+            result = "Ottimo, hai settato " + values.get(0);
+        } else {
+            result = "Esistono più corsi che contengono quel nome... Cerca di essere più preciso!" + "\n";
+            for (int i : values.keySet()) {
+                result = result + values.get(i) + "\n";
+            }
         }
         return result;
     }
