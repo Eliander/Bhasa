@@ -13,15 +13,15 @@ public class Lesson{
     private String start;
     private String end;
     private String classroom;
-    private String courseCode;
+    private String lessonCode;
 
-    public Lesson(String label, String teacher, String start, String end, String classroom, String courseCode) {
+    public Lesson(String label, String teacher, String start, String end, String classroom, String lessonCode) {
         this.label = label;
         this.teacher = teacher;
         this.start = start;
         this.end = end;
         this.classroom = classroom;
-        this.courseCode = courseCode;
+        this.lessonCode = lessonCode;
     }
 
     public Lesson() {
@@ -67,19 +67,19 @@ public class Lesson{
         this.classroom = classroom;
     }
 
-    public String getCourseCode() {
-        return courseCode;
+    public String getlessonCode() {
+        return lessonCode;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+    public void setlessonCode(String lessonCode) {
+        this.lessonCode = lessonCode;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash + Objects.hashCode(this.label);
-        hash = 67 * hash + Objects.hashCode(this.courseCode);
+        hash = 67 * hash + Objects.hashCode(this.lessonCode);
         return hash;
     }
 
@@ -87,7 +87,7 @@ public class Lesson{
     public boolean equals(Object obj) {
         if(obj instanceof Lesson){
             Lesson other = (Lesson) obj;
-            if(this.courseCode.equals(other.courseCode)){ 
+            if(this.lessonCode.equals(other.lessonCode)){ 
                 return true;
             }  
         }
@@ -96,6 +96,6 @@ public class Lesson{
 
     @Override
     public String toString() {
-        return label + '\n' + teacher + '\n' + start + " - " + end + '\n' + classroom + '\n' + courseCode + '\n' + '\n';
+        return label + '\n' + teacher + '\n' + start + " - " + end + '\n' + classroom + '\n' + lessonCode + '\n' + '\n';
     }
 }

@@ -10,32 +10,32 @@ import utilities.Utilities;
  */
 public class Timetable {
     
-    private ArrayList<Lesson> courses;
+    private ArrayList<Lesson> lessons;
     private String graduation;
     
     private final Utilities utility = new Utilities();
 
     public Timetable() {
-       this.courses = new ArrayList();
+       this.lessons = new ArrayList();
     }
 
-    public Timetable(ArrayList<Lesson> courses, String graduation) {
-        this.courses = courses;
+    public Timetable(ArrayList<Lesson> lessons, String graduation) {
+        this.lessons = lessons;
         this.graduation = graduation;
     }
 
-    public ArrayList<Lesson> getCourses() {
-        return courses;
+    public ArrayList<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setCourses(ArrayList<Lesson> courses) {
-        this.courses = courses;
+    public void setLessons(ArrayList<Lesson> lessons) {
+        this.lessons = lessons;
     }
     
-    public void addCourses(Lesson courses) {
-        ArrayList<Lesson> c = this.getCourses();
-        c.add(courses);
-        setCourses(c);
+    public void addlessons(Lesson lessons) {
+        ArrayList<Lesson> c = this.getLessons();
+        c.add(lessons);
+        setLessons(c);
     }
 
     public String getGraduation() {
@@ -49,7 +49,7 @@ public class Timetable {
     @Override
     public String toString() {
         String result = "";
-        for(Lesson c : courses){
+        for(Lesson c : lessons){
             result += c.toString();
         }
         return result;
@@ -59,8 +59,8 @@ public class Timetable {
         ArrayList<Lesson> newArray = new ArrayList();
         Map<Float, Lesson> map = new HashMap();
         
-        for(int i = 0; i < courses.size(); i ++){
-            map.put(Float.parseFloat(utility.normalizeForCompare(courses.get(i).getStart())), courses.get(i));
+        for(int i = 0; i < lessons.size(); i ++){
+            map.put(Float.parseFloat(utility.normalizeForCompare(lessons.get(i).getStart())), lessons.get(i));
         }
         float min;
         while(map.size() > 0){
@@ -68,6 +68,6 @@ public class Timetable {
             newArray.add(map.get(min));
             map.remove(min);
         }
-        this.setCourses(newArray);
+        this.setLessons(newArray);
     }
 }

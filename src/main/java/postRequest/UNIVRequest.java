@@ -23,7 +23,7 @@ public class UNIVRequest {
     // HTTP POST request: combo_call.php, contains values dictionary
 
     public static StringBuilder data, values;
-    
+
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(UNIVRequest.class);
     private final Utilities utility = new Utilities();
     private final String urlData = "https://logistica.univr.it/aule/Orario/grid_call.php";
@@ -70,7 +70,7 @@ public class UNIVRequest {
     }
 
     // HTTP POST request: grid_call.php, contains data
-    public Timetable getData(String course, String module, Calendar c) {
+    public Timetable getData(String lesson, String module, Calendar c) {
         String arr[] = null;
         module = utility.normalizeModule(module);
         try {
@@ -81,8 +81,8 @@ public class UNIVRequest {
             //set body parameters (not a get)
 
             //Old params: dont remove. they are son of devil, they could change this every day
-            //String urlParameters = "form-type=corso&aa=2017&cdl="+ course + "&anno=2018&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
-            String urlParameters = "form-type=corso&anno=2017&corso=" + course + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            //String urlParameters = "form-type=corso&aa=2017&cdl="+ lesson + "&anno=2018&corso=" + lesson + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&anno=2017&corso=" + lesson + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
             //String urlParameters = "form-type=corso&anno=2017&corso=420&anno2=999%7C2&date=28-02-2018&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
@@ -92,7 +92,7 @@ public class UNIVRequest {
             dataOutputStream.writeUTF(urlParameters);
             dataOutputStream.flush();
             dataOutputStream.close();
-            
+
             int responseCode = connection.getResponseCode();
 
             /*to-do deve essere cacheata
@@ -116,12 +116,12 @@ public class UNIVRequest {
             String str = response.toString();
             Timetable timetable = find(str, c);
             System.out.println(timetable);
-            
+
             timetable.sortTimetable();
-            
+
             ImageCreator i = new ImageCreator();
             i.drawImage(timetable);
-            
+
             return timetable;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
@@ -145,12 +145,12 @@ public class UNIVRequest {
         int getDay;
         String month = utility.months[calendar.get(GregorianCalendar.MONTH)];
 
-        for (LinkedTreeMap course : array) {
+        for (LinkedTreeMap lesson : array) {
             //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione
             try {
-                getDay = Integer.parseInt((String) course.get("giorno"));
+                getDay = Integer.parseInt((String) lesson.get("giorno"));
                 //if (getDay == affectedDay) { necessario per le lezioni fuori orario
-                    /*
+                /*
                     * informazioni_lezione:{
                             contenuto:{
                                     8:[
@@ -161,37 +161,37 @@ public class UNIVRequest {
                                         }
                                         ...
                     *
-                    */
-                    //controllo se la data di calendar e segnata come lezione> oggi potrebbe esserci lezione, controlla se e presente nel calendario
-                    LinkedTreeMap info = (LinkedTreeMap) course.get("informazioni_lezione");
-                    LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
-                    ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
-                    ArrayList<LinkedTreeMap> graduation = (ArrayList<LinkedTreeMap>) content.get("7");
-                    
-                    String d = (String) dates.get(1).get("contenuto");
+                 */
+                //controllo se la data di calendar e segnata come lezione> oggi potrebbe esserci lezione, controlla se e presente nel calendario
+                LinkedTreeMap info = (LinkedTreeMap) lesson.get("informazioni_lezione");
+                LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
+                ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
+                ArrayList<LinkedTreeMap> graduation = (ArrayList<LinkedTreeMap>) content.get("7");
 
-                    if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
-                        String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
-                        Lesson c = new Lesson();
-                        c.setLabel(utility.normalizeString((String) (course.get("titolo_lezione"))));
-                        c.setTeacher(utility.normalizeString((String) (course.get("docente"))));
-                        c.setClassroom(utility.normalizeString((String) (course.get("aula"))));
-                        String code = (String)course.get("codice_insegnamento");
-                        c.setCourseCode(code);
-                        
-                        //String time = (String)(course.get("orario"));
-                        int index = d.indexOf(soughtDay);
-                        String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
-                        String[] normalizedTime = utility.normalizeTime(substringTime);
-                        c.setStart(normalizedTime[0]);
-                        c.setEnd(normalizedTime[1]);
-                        timetable.addCourses(c);
-                        
-                        String grade = (String)graduation.get(0).get("contenuto");
-                        int start = grade.indexOf("[");
-                        int end = grade.indexOf("]");
-                        timetable.setGraduation(grade.substring(start + 1, end));
-                    }
+                String d = (String) dates.get(1).get("contenuto");
+
+                if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
+                    String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
+                    Lesson c = new Lesson();
+                    c.setLabel(utility.normalizeString((String) (lesson.get("titolo_lezione"))));
+                    c.setTeacher(utility.normalizeString((String) (lesson.get("docente"))));
+                    c.setClassroom(utility.normalizeString((String) (lesson.get("aula"))));
+                    String code = (String) lesson.get("codice_insegnamento");
+                    c.setlessonCode(code);
+
+                    //String time = (String)(lesson.get("orario"));
+                    int index = d.indexOf(soughtDay);
+                    String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
+                    String[] normalizedTime = utility.normalizeTime(substringTime);
+                    c.setStart(normalizedTime[0]);
+                    c.setEnd(normalizedTime[1]);
+                    timetable.addlessons(c);
+
+                    String grade = (String) graduation.get(0).get("contenuto");
+                    int start = grade.indexOf("[");
+                    int end = grade.indexOf("]");
+                    timetable.setGraduation(grade.substring(start + 1, end));
+                }
             } catch (Exception e) {
                 log.error(e);
                 return null;
@@ -199,8 +199,8 @@ public class UNIVRequest {
         }
         return timetable;
     }
-    
-    public String getGraduation(String values){
+
+    public String getGraduation(String values) {
         values.replace("[", "$");
         values.replace("[", "$");
         values = values.replaceAll("\\[.*?\\]", "");

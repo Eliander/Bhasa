@@ -112,7 +112,4 @@ public class Utilities {
         return s;
     }
 
-    public void sortTimetable(Timetable t) {
-    }
-
 }

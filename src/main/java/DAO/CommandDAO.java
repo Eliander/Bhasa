@@ -38,8 +38,8 @@ public class CommandDAO {
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(INSERT);
-            pst.setString(1, chatID);
-            pst.setString(2, lastCommand);
+            pst.setString(1, lastCommand);
+            pst.setString(2, chatID);
             pst.executeUpdate();
             con.close();
             result = true;
@@ -54,8 +54,24 @@ public class CommandDAO {
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(UPDATE);
-            pst.setString(1, chatID);
-            pst.setString(2, lastCommand);
+            pst.setString(1, lastCommand);
+            pst.setString(2, chatID);
+            pst.executeUpdate();
+            con.close();
+            result = true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+    }
+    
+    public boolean clearLastCommand(String chatID){
+        boolean result = false;
+        try {
+            Connection con = DAOSettings.getConnection();
+            PreparedStatement pst = con.prepareStatement(UPDATE);
+            pst.setString(1, "");
+            pst.setString(2, chatID);
             pst.executeUpdate();
             con.close();
             result = true;

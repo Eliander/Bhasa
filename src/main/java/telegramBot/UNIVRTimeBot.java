@@ -9,10 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import Controller.Controller;
-import Controller.ControllerError;
-import Controller.ControllerSelectGraduation;
-import Controller.ControllerStart;
+import Controller.*;
 import bhasa.MainBot;
 
 /**
@@ -23,6 +20,7 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
 
     private final String start_command = "/start";
     private final String set_graduation = "/setGraduation";
+    private final String home = "/home";
 
     private static final Logger log = LogManager.getLogger(UNIVRTimeBot.class);
 
@@ -44,11 +42,12 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
                 case set_graduation:
                     controller = new ControllerSelectGraduation();
                     break;
+                case home:
+                    controller = new ControllerHome();
+                    break;
                 default:
                     controller = selectController(chatId, message);
             }
-                
-
             controller.send(chatId, this);
         }
     }

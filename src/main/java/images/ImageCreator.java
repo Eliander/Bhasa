@@ -36,7 +36,7 @@ public class ImageCreator {
             int hour = 8;
             //left side bar
             for (int i = 0; i < 22; i++) {
-                //String message = timetable.getCourses().get(i).getStart() + " - " + timetable.getCourses().get(i).getEnd();
+                //String message = timetable.getlessons().get(i).getStart() + " - " + timetable.getlessons().get(i).getEnd();
                 String message = "" + hour;
                 if (isHalf) {
                     isHalf = false;
@@ -56,7 +56,7 @@ public class ImageCreator {
             //data
             g2d = fillData(timetable, g2d);
 
-            if (timetable.getCourses().size() != 0) {
+            if (timetable.getLessons().size() != 0) {
                 /*
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ImageIO.write(bi, "PNG", os);
@@ -85,19 +85,19 @@ public class ImageCreator {
 
     private Graphics2D fillData(Timetable timetable, Graphics2D g2d) {
         int width = 500;
-        for (int i = 0; i < timetable.getCourses().size(); i++) {
+        for (int i = 0; i < timetable.getLessons().size(); i++) {
 
-            int base = holeNumber(timetable.getCourses().get(i).getStart()) * heightForElement;
-            int end = holeNumber(timetable.getCourses().get(i).getEnd()) * heightForElement;
+            int base = holeNumber(timetable.getLessons().get(i).getStart()) * heightForElement;
+            int end = holeNumber(timetable.getLessons().get(i).getEnd()) * heightForElement;
             g2d.setColor(utility.randHEXColor());
-            String message = timetable.getCourses().get(i).getLabel();
+            String message = timetable.getLessons().get(i).getLabel();
             g2d.fillRect(heightForElement, base, width, end - base);
             g2d.setPaint(Color.black);
-            g2d.drawString(message, 75, holeNumber(timetable.getCourses().get(i).getStart()) * heightForElement + 30);
-            message = timetable.getCourses().get(i).getClassroom();
-            g2d.drawString(message, 75, holeNumber(timetable.getCourses().get(i).getStart()) * heightForElement + 40 + (g2d.getFontMetrics().getHeight()));
-            message = timetable.getCourses().get(i).getStart() + " - " + timetable.getCourses().get(i).getEnd();
-            g2d.drawString(message, 75, holeNumber(timetable.getCourses().get(i).getStart()) * heightForElement + 65 + (g2d.getFontMetrics().getHeight()));
+            g2d.drawString(message, 75, holeNumber(timetable.getLessons().get(i).getStart()) * heightForElement + 30);
+            message = timetable.getLessons().get(i).getClassroom();
+            g2d.drawString(message, 75, holeNumber(timetable.getLessons().get(i).getStart()) * heightForElement + 40 + (g2d.getFontMetrics().getHeight()));
+            message = timetable.getLessons().get(i).getStart() + " - " + timetable.getLessons().get(i).getEnd();
+            g2d.drawString(message, 75, holeNumber(timetable.getLessons().get(i).getStart()) * heightForElement + 65 + (g2d.getFontMetrics().getHeight()));
         }
         return g2d;
     }

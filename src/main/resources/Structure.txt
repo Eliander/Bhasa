@@ -13,14 +13,14 @@
 				  |					|						|_ split data
 				  |					|						|_ return String[] of data
 				  |					|_ GSON Formatter
-				  |								    |_ call getCourses
+				  |								    |_ call getlessons
 				  |											|_replace all the usless character
-				  |											|_ extract courses
-				  |											|_ call parseCourse
-																			|_ create Courses obj from String
-																			|_ return course
+				  |											|_ extract lessons
+				  |											|_ call parselesson
+																			|_ create lessons obj from String
+																			|_ return lesson
 															|_ call addModules
-																			|_ return course
+																			|_ return lesson
 				  |
 				  |_ inizialize SchedulerValues
 				  |					|_ inizialize UNIVRequest
