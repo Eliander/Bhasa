@@ -1,0 +1,23 @@
+19:04:50.426 [main][INFO][DAO.DAOSettings] Inizialize DB settings
+19:04:50.778 [main][INFO][postRequest.UNIVRequest] Send POST request - values
+19:04:52.110 [main][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
+19:04:52.111 [main][INFO][postRequest.UNIVRequest] Post parameters : _=111111
+19:04:52.111 [main][INFO][postRequest.UNIVRequest] Response Code : 200
+19:05:45.365 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:05:45.521 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:19.737 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:19.745 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:31.600 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:31.606 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:37.124 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:37.129 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:37.132 [UNIVRTimeBot Telegram Executor][INFO][postRequest.UNIVRequest] Send POST request - values
+19:06:37.229 [UNIVRTimeBot Telegram Executor][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
+19:06:37.229 [UNIVRTimeBot Telegram Executor][INFO][postRequest.UNIVRequest] Post parameters : _=111111
+19:06:37.229 [UNIVRTimeBot Telegram Executor][INFO][postRequest.UNIVRequest] Response Code : 200
+19:06:38.202 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:38.209 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:50.952 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:50.960 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:06:53.635 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:06:53.640 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok

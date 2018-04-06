@@ -56,9 +56,9 @@ public class ControllerHome extends Controller {
         // Create a keyboard row
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
-        row.add("Set graduation");
-        row.add("Today time");
-        row.add("Tomorrow time");
+        row.add("/setGraduation");
+        row.add("/todayTime");
+        row.add("/tomorrowTime");
         // Add the first row to the keyboard
         keyboard.add(row);
         // Set the keyboard to the markup

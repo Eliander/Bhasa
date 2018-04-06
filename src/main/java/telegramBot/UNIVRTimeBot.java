@@ -11,6 +11,7 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import Controller.*;
 import bhasa.MainBot;
+import utilities.Utilities;
 
 /**
  *
@@ -18,9 +19,7 @@ import bhasa.MainBot;
  */
 public class UNIVRTimeBot extends TelegramLongPollingBot {
 
-    private final String start_command = "/start";
-    private final String set_graduation = "/setGraduation";
-    private final String home = "/home";
+    
 
     private static final Logger log = LogManager.getLogger(UNIVRTimeBot.class);
 
@@ -36,13 +35,13 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
             String message = update.getMessage().getText();
             Controller controller;
             switch(message){
-                case start_command:
+                case Utilities.start_command:
                     controller = new ControllerStart();
                     break;
-                case set_graduation:
+                case Utilities.set_graduation:
                     controller = new ControllerSelectGraduation();
                     break;
-                case home:
+                case Utilities.home:
                     controller = new ControllerHome();
                     break;
                 default:
@@ -69,7 +68,7 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
         Controller controller = null;
         String lastCommand = MainBot.dao.getCommandDAO().getLastCommand(chatID + "");
         switch (lastCommand){
-            case set_graduation:
+            case Utilities.set_graduation:
                 controller = new ControllerSelectGraduation(message);
                 break;
             default:

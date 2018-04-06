@@ -12,7 +12,12 @@ import persistence.Timetable;
  * @author Elia
  */
 public class Utilities {
-        
+    
+    //commands
+    public static final String start_command = "/start";
+    public static final String set_graduation = "/setGraduation";
+    public static final String home = "/home";
+    //end commands
     private Random random = new Random();
     public final String NAME_PROJECT = "Bhasa";
     public final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};

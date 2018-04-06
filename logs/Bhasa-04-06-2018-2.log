@@ -1,0 +1,9 @@
+19:23:51.744 [main][INFO][DAO.DAOSettings] Inizialize DB settings
+19:23:51.969 [main][INFO][postRequest.UNIVRequest] Send POST request - values
+19:23:52.267 [main][INFO][postRequest.UNIVRequest] Sending 'POST' request to URL : https://logistica.univr.it/aule/Orario/combo_call.php
+19:23:52.267 [main][INFO][postRequest.UNIVRequest] Post parameters : _=111111
+19:23:52.267 [main][INFO][postRequest.UNIVRequest] Response Code : 200
+19:24:06.254 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:24:06.320 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok
+19:24:29.719 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] Try DB connection
+19:24:29.724 [UNIVRTimeBot Telegram Executor][INFO][DAO.DAOSettings] DB connection: ok

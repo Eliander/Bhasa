@@ -1,5 +1,6 @@
 package Controller;
 
+import bhasa.MainBot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -20,13 +21,27 @@ public class ControllerStart extends Controller {
 
     @Override
     public boolean send(long chatId, DefaultAbsSender bot) {
-        SendMessage message = new SendMessage(chatId, this.text);
-        try {
-            bot.execute(message);
-            return true;
-        } catch (TelegramApiException ex) {
-            ex.printStackTrace();
-            return false;
+        //new user
+        if (MainBot.dao.getGraduationDAO().getGraduation(chatId + "") != 0) {
+            SendMessage message = new SendMessage(chatId, this.text);
+            MainBot.dao.getCommandDAO().updateLastCommand(chatId + "", "/setGraduation");
+            try {
+                bot.execute(message);
+                return true;
+            } catch (TelegramApiException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        } //old user
+        else {
+            SendMessage message = new SendMessage(chatId, "Bentornato");
+            try {
+                bot.execute(message);
+                return true;
+            } catch (TelegramApiException ex) {
+                ex.printStackTrace();
+                return false;
+            }
         }
     }
 

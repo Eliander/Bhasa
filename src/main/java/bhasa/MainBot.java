@@ -22,6 +22,7 @@ public class MainBot {
     public static final DAOSettings dao = DAOSettings.DAO;
     public static final UNIVRequest request = new UNIVRequest();
     public static HashMap<Integer, HashMap<String, String>> years = new HashMap();
+    //TO DO girala, cerchi per nome non per valore
     public static HashMap<Integer, String> graduations = getGraduation();
 
     public static void main(String[] args) {
