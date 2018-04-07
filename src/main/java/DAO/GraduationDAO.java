@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class GraduationDAO {
     
     private final String SELECT = "SELECT * FROM GRADUATION WHERE CHATID = ?";
+    private final String SELECT_COURSE = "SELECT COURSE FROM GRADUATION WHERE CHATID = ?";
     private final String INSERT = "INSERT INTO GRADUATION (CHATID, GRADUATION) values (?, ?);";
     private final String UPDATE = "UPDATE GRADUATION SET GRADUATION = ? WHERE CHATID = ?";
     private final String DELETE = "DELETE FROM GRADUATION WHERE CHATID = ?";
@@ -31,6 +32,23 @@ public class GraduationDAO {
             System.out.println(ex);
         }
         return graduation;
+    }
+    
+    public String getCourse(String chatID){
+        String course = "";
+        try {
+            Connection con = DAOSettings.getConnection();
+            PreparedStatement pst = con.prepareStatement(SELECT_COURSE);
+            pst.setString(1, chatID);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                course = rs.getString("COURSE");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return course;
     }
     
     public boolean insertUser(String chatID, String graduation){
