@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package c2ontroller;
 
 import bhasa.MainBot;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import utilities.Utilities;
 
 /**
  *
@@ -56,9 +57,9 @@ public class ControllerHome extends Controller {
         // Create a keyboard row
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
-        row.add("/setGraduation");
-        row.add("/todayTime");
-        row.add("/tomorrowTime");
+        row.add(Utilities.set_graduation);
+        row.add(Utilities.today);
+        row.add(Utilities.tomorrow);
         // Add the first row to the keyboard
         keyboard.add(row);
         // Set the keyboard to the markup

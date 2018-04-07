@@ -70,9 +70,9 @@ public class UNIVRequest {
     }
 
     // HTTP POST request: grid_call.php, contains data
-    public Timetable getData(String lesson, String module, Calendar c) {
+    public Timetable getData(String graduation, String course, Calendar c) {
         String arr[] = null;
-        module = utility.normalizeModule(module);
+        course = utility.normalizeModule(course);
         try {
             URL url = new URL(urlData);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -82,7 +82,7 @@ public class UNIVRequest {
 
             //Old params: dont remove. they are son of devil, they could change this every day
             //String urlParameters = "form-type=corso&aa=2017&cdl="+ lesson + "&anno=2018&corso=" + lesson + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
-            String urlParameters = "form-type=corso&anno=2017&corso=" + lesson + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&anno=2017&corso=" + graduation + "&anno2=" + course + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
             //String urlParameters = "form-type=corso&anno=2017&corso=420&anno2=999%7C2&date=28-02-2018&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
@@ -119,9 +119,8 @@ public class UNIVRequest {
 
             timetable.sortTimetable();
 
-            ImageCreator i = new ImageCreator();
-            i.drawImage(timetable);
-
+            /*ImageCreator i = new ImageCreator();
+            i.drawImage(timetable);*/
             return timetable;
         } catch (Exception ex) {
             log.error(UNIVRequest.class.getName(), ex);
@@ -149,6 +148,7 @@ public class UNIVRequest {
             //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione
             try {
                 getDay = Integer.parseInt((String) lesson.get("giorno"));
+
                 //if (getDay == affectedDay) { necessario per le lezioni fuori orario
                 /*
                     * informazioni_lezione:{
@@ -164,33 +164,48 @@ public class UNIVRequest {
                  */
                 //controllo se la data di calendar e segnata come lezione> oggi potrebbe esserci lezione, controlla se e presente nel calendario
                 LinkedTreeMap info = (LinkedTreeMap) lesson.get("informazioni_lezione");
-                LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
-                ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
-                ArrayList<LinkedTreeMap> graduation = (ArrayList<LinkedTreeMap>) content.get("7");
+                if (info!=null) {
+                    LinkedTreeMap content = (LinkedTreeMap) info.get("contenuto");
+                    ArrayList<LinkedTreeMap> dates = (ArrayList<LinkedTreeMap>) content.get("8");
+                    ArrayList<LinkedTreeMap> graduation = (ArrayList<LinkedTreeMap>) content.get("7");
 
-                String d = (String) dates.get(1).get("contenuto");
+                    String d = (String) dates.get(1).get("contenuto");
 
-                if (d.contains(calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
-                    String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
-                    Lesson c = new Lesson();
-                    c.setLabel(utility.normalizeString((String) (lesson.get("titolo_lezione"))));
-                    c.setTeacher(utility.normalizeString((String) (lesson.get("docente"))));
-                    c.setClassroom(utility.normalizeString((String) (lesson.get("aula"))));
-                    String code = (String) lesson.get("codice_insegnamento");
-                    c.setlessonCode(code);
+                    if (d.contains(" " + calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month)) {
+                        String soughtDay = (calendar.get(GregorianCalendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(GregorianCalendar.YEAR)); //rischio di avere lezioni fuori orario di una durata diversa dalle solite
+                        Lesson c = new Lesson();
+                        //alcune lezioni non hanno docenti/aule assegnate
+                        if (!(lesson.get("titolo_lezione").equals(""))) {
+                            c.setLabel(utility.normalizeString((String) (lesson.get("titolo_lezione"))));
+                        } else {
+                            c.setLabel("");
+                        }
+                        if (!(lesson.get("docente").equals(""))) {
+                            c.setTeacher(utility.normalizeString((String) (lesson.get("docente"))));
+                        } else {
+                            c.setTeacher("");
+                        }
+                        if (!(lesson.get("aula").equals(""))) {
+                            c.setClassroom(utility.normalizeString((String) (lesson.get("aula"))));
+                        } else {
+                            c.setClassroom("");
+                        }
+                        String code = (String) lesson.get("codice_insegnamento");
+                        c.setlessonCode(code);
 
-                    //String time = (String)(lesson.get("orario"));
-                    int index = d.indexOf(soughtDay);
-                    String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
-                    String[] normalizedTime = utility.normalizeTime(substringTime);
-                    c.setStart(normalizedTime[0]);
-                    c.setEnd(normalizedTime[1]);
-                    timetable.addlessons(c);
+                        //String time = (String)(lesson.get("orario"));
+                        int index = d.indexOf(soughtDay);
+                        String substringTime = d.substring(index + soughtDay.length(), index + soughtDay.length() + 14);
+                        String[] normalizedTime = utility.normalizeTime(substringTime);
+                        c.setStart(normalizedTime[0]);
+                        c.setEnd(normalizedTime[1]);
+                        timetable.addlessons(c);
 
-                    String grade = (String) graduation.get(0).get("contenuto");
-                    int start = grade.indexOf("[");
-                    int end = grade.indexOf("]");
-                    timetable.setGraduation(grade.substring(start + 1, end));
+                        String grade = (String) graduation.get(0).get("contenuto");
+                        int start = grade.indexOf("[");
+                        int end = grade.indexOf("]");
+                        timetable.setGraduation(grade.substring(start + 1, end));
+                    }
                 }
             } catch (Exception e) {
                 log.error(e);

@@ -1,4 +1,4 @@
-package Controller;
+package c2ontroller;
 
 import bhasa.MainBot;
 import org.apache.logging.log4j.LogManager;

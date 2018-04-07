@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
-import persistence.Timetable;
 
 /**
  *
@@ -17,6 +16,8 @@ public class Utilities {
     public static final String start_command = "/start";
     public static final String set_graduation = "/setGraduation";
     public static final String home = "/home";
+    public static final String today = "/today";
+    public static final String tomorrow = "/tomorrow";
     //end commands
     private Random random = new Random();
     public final String NAME_PROJECT = "Bhasa";

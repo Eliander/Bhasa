@@ -1,6 +1,6 @@
 package bhasa;
 
-import DAO.DAOSettings;
+import d2ao.DAOSettings;
 import images.ImageCreator;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -44,7 +44,7 @@ public class MainOperations {
             //non serve ora continuare a chiedere
             //da rimuovere dopo debug
             Calendar c = new GregorianCalendar();
-            c.set(2018, GregorianCalendar.MARCH, 1);
+            c.set(2018, GregorianCalendar.APRIL, 9);
 
             http.getValues();
             Timetable data = http.getData(graduation + "", "999%7C2", c);

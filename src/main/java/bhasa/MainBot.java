@@ -5,7 +5,7 @@
  */
 package bhasa;
 
-import DAO.DAOSettings;
+import d2ao.DAOSettings;
 import java.util.HashMap;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;

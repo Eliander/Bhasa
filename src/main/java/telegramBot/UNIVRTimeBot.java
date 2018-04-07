@@ -5,12 +5,18 @@
  */
 package telegramBot;
 
+import c2ontroller.ControllerStart;
+import c2ontroller.ControllerError;
+import c2ontroller.ControllerHome;
+import c2ontroller.Controller;
+import c2ontroller.ControllerToday;
+import c2ontroller.ControllerSelectGraduation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import Controller.*;
 import bhasa.MainBot;
+import c2ontroller.ControllerTomorrow;
 import utilities.Utilities;
 
 /**
@@ -18,8 +24,6 @@ import utilities.Utilities;
  * @author Elia
  */
 public class UNIVRTimeBot extends TelegramLongPollingBot {
-
-    
 
     private static final Logger log = LogManager.getLogger(UNIVRTimeBot.class);
 
@@ -34,7 +38,7 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String message = update.getMessage().getText();
             Controller controller;
-            switch(message){
+            switch (message) {
                 case Utilities.start_command:
                     controller = new ControllerStart();
                     break;
@@ -43,6 +47,12 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
                     break;
                 case Utilities.home:
                     controller = new ControllerHome();
+                    break;
+                case Utilities.today:
+                    controller = new ControllerToday();
+                    break;
+                case Utilities.tomorrow:
+                    controller = new ControllerTomorrow();
                     break;
                 default:
                     controller = selectController(chatId, message);
@@ -56,18 +66,18 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
         return "UNIVRTimeBot";
     }
 
-   /*
+    /*
     *
     * Telegram non supporta le sessioni. Per risolvere ogni volta che uso un comando che richiede l'interazione
     * con l'utente, lo salvo su db. Quando ricevo una risposta che non corrisponde a nessuno dei comandi vado a 
     * vedere su db qual era l'ultimo comando inserito, questo mi indica che l'opzione inviata corrisponde alla risposta
     * dell'utente. Posso gestire cosi il tutto
     *
-    */
+     */
     private Controller selectController(long chatID, String message) {
         Controller controller = null;
         String lastCommand = MainBot.dao.getCommandDAO().getLastCommand(chatID + "");
-        switch (lastCommand){
+        switch (lastCommand) {
             case Utilities.set_graduation:
                 controller = new ControllerSelectGraduation(message);
                 break;
