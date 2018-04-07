@@ -1,6 +1,6 @@
 package bhasa;
 
-import d2ao.DAOSettings;
+import dao.DAOSettings;
 import images.ImageCreator;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package c2ontroller;
+package controller;
 
 import bhasa.MainBot;
 import java.util.ArrayList;

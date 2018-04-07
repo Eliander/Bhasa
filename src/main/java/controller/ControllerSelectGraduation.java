@@ -1,4 +1,4 @@
-package c2ontroller;
+package controller;
 
 import bhasa.MainBot;
 import java.util.ArrayList;

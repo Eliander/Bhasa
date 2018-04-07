@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package c2ontroller;
+package controller;
 
 import bhasa.MainBot;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -20,12 +19,12 @@ import utilities.Utilities;
  *
  * @author Elia
  */
-public class ControllerTomorrow extends Controller {
+public class ControllerToday extends Controller {
 
     Calendar date;
 
-    public ControllerTomorrow() {
-        super(Utilities.tomorrow);
+    public ControllerToday() {
+        super(Utilities.today);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class ControllerTomorrow extends Controller {
         SendMessage message = new SendMessage();
         try {
             message.setChatId(chatId);
-            message.setText(getTomorrowTime(chatId));
+            message.setText(getTodayTime(chatId));
             bot.execute(message);
             return true;
         } catch (TelegramApiException ex) {
@@ -46,13 +45,13 @@ public class ControllerTomorrow extends Controller {
     protected String setText() {
         
         date = Calendar.getInstance();
-        date.set(GregorianCalendar.DAY_OF_MONTH, date.get(GregorianCalendar.DAY_OF_MONTH) + 1);
+        
         /*date = Calendar.getInstance();
         date.set(2018, 3, 8);*/
         return "Orario per il giorno " + date.get(Calendar.DATE) + "/" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
     }
 
-    private String getTomorrowTime(long chatId) {
+    private String getTodayTime(long chatId) {
         int graduation = MainBot.dao.getGraduationDAO().getGraduation(chatId + "");
         String course = MainBot.dao.getGraduationDAO().getCourse(chatId + "");
         String result = this.text + "\n";

@@ -5,18 +5,18 @@
  */
 package telegramBot;
 
-import c2ontroller.ControllerStart;
-import c2ontroller.ControllerError;
-import c2ontroller.ControllerHome;
-import c2ontroller.Controller;
-import c2ontroller.ControllerToday;
-import c2ontroller.ControllerSelectGraduation;
+import controller.ControllerStart;
+import controller.ControllerError;
+import controller.ControllerHome;
+import controller.Controller;
+import controller.ControllerToday;
+import controller.ControllerSelectGraduation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import bhasa.MainBot;
-import c2ontroller.ControllerTomorrow;
+import controller.ControllerTomorrow;
 import utilities.Utilities;
 
 /**

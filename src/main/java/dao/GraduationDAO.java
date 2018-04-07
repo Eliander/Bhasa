@@ -1,4 +1,4 @@
-package d2ao;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,37 +9,55 @@ import java.sql.SQLException;
  *
  * @author Elia
  */
-public class CommandDAO {
+public class GraduationDAO {
     
-    private final String SELECT = "SELECT * FROM COMMANDS WHERE CHATID = ?";
-    private final String INSERT = "INSERT INTO COMMANDS (CHATID, LASTCOMMAND) values (?, ?)";
-    private final String UPDATE = "UPDATE COMMANDS SET LASTCOMMAND = ? WHERE CHATID = ?";
-    private final String DELETE = "DELETE FROM COMMANDS WHERE CHATID = ?";
+    private final String SELECT = "SELECT * FROM GRADUATION WHERE CHATID = ?";
+    private final String SELECT_COURSE = "SELECT COURSE FROM GRADUATION WHERE CHATID = ?";
+    private final String INSERT = "INSERT INTO GRADUATION (CHATID, GRADUATION) values (?, ?);";
+    private final String UPDATE = "UPDATE GRADUATION SET GRADUATION = ? WHERE CHATID = ?";
+    private final String DELETE = "DELETE FROM GRADUATION WHERE CHATID = ?";
     
-    public String getLastCommand(String chatID){
-        String command = null;
+    public int getGraduation(String chatID){
+        int graduation = 0;
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(SELECT);
             pst.setString(1, chatID);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                command = rs.getString("LASTCOMMAND");
+                graduation = rs.getInt("GRADUATION");
             }
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return command;
+        return graduation;
     }
     
-    public boolean insertLastCommand(String chatID, String lastCommand){
+    public String getCourse(String chatID){
+        String course = "";
+        try {
+            Connection con = DAOSettings.getConnection();
+            PreparedStatement pst = con.prepareStatement(SELECT_COURSE);
+            pst.setString(1, chatID);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                course = rs.getString("COURSE");
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return course;
+    }
+    
+    public boolean insertUser(String chatID, String graduation){
         boolean result = false;
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(INSERT);
-            pst.setString(1, lastCommand);
-            pst.setString(2, chatID);
+            pst.setString(1, chatID);
+            pst.setInt(2, Integer.parseInt(graduation));
             pst.executeUpdate();
             con.close();
             result = true;
@@ -49,13 +67,13 @@ public class CommandDAO {
         return result;
     }
     
-    public boolean updateLastCommand(String chatID, String lastCommand){
+    public boolean updateUser(String chatID, String graduation){
         boolean result = false;
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(UPDATE);
-            pst.setString(1, lastCommand);
-            pst.setString(2, chatID);
+            pst.setString(1, chatID);
+            pst.setInt(2, Integer.parseInt(graduation));
             pst.executeUpdate();
             con.close();
             result = true;
@@ -65,23 +83,7 @@ public class CommandDAO {
         return result;
     }
     
-    public boolean clearLastCommand(String chatID){
-        boolean result = false;
-        try {
-            Connection con = DAOSettings.getConnection();
-            PreparedStatement pst = con.prepareStatement(UPDATE);
-            pst.setString(1, "");
-            pst.setString(2, chatID);
-            pst.executeUpdate();
-            con.close();
-            result = true;
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return result;
-    }
-    
-    public boolean deleteLastCommand(String chatID){
+    public boolean deleteUser(String chatID){
         boolean result = false;
         try {
             Connection con = DAOSettings.getConnection();

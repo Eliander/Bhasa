@@ -1,4 +1,4 @@
-package d2ao;
+package dao;
 
 import java.sql.Connection;
 import java.sql.Date;

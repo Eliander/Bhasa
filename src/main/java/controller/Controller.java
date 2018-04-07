@@ -1,4 +1,4 @@
-package c2ontroller;
+package controller;
 
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 
