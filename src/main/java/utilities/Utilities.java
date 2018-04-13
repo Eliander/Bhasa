@@ -14,8 +14,8 @@ public class Utilities {
     
     //commands
     public static final String START_COMMAND = "/start";
-    public static final String SET_GRADUATION_COMMAND = "/setGraduation";
-    public static final String SET_YEAR_COMMAND = "/setYear";
+    public static final String SET_GRADUATION_COMMAND = "/setgraduation";
+    public static final String SET_YEAR_COMMAND = "/setyear";
     public static final String HOME_COMMAND = "/home";
     public static final String TODAY_COMMAND = "/today";
     public static final String TOMORROW_COMMAND = "/tomorrow";
@@ -120,8 +120,11 @@ public class Utilities {
     }
     
     public String normalizeForSetYears(String s){
+        /*
         int cut = s.indexOf("-");
         return s.substring(0, cut);
+        */
+        return s.replaceAll(",", "");
     }
 
 }

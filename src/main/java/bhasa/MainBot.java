@@ -93,7 +93,7 @@ public class MainBot {
 
         for (String s : split) {
             if ((s.contains("Laurea"))) {
-                graduations.put(s.split(",")[0], Integer.parseInt(s.split("valore")[1].substring(0, 3)));
+                graduations.put(s.split(",")[0].toLowerCase(), Integer.parseInt(s.split("valore")[1].substring(0, 3)));
             }
         }
         return graduations;

@@ -9,6 +9,8 @@ import bhasa.MainBot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -37,7 +39,8 @@ public class ControllerSelectYear extends Controller {
         super(Utilities.SET_YEAR_COMMAND);
         this.option = option;
     }
-
+    //to do cancellare tutto quando si arresta il bot
+    //to do sistemare ordine di visualizzazione dehli anni
     @Override
     public boolean send(long chatId, DefaultAbsSender bot) {
         SendMessage message = null;
@@ -61,6 +64,7 @@ public class ControllerSelectYear extends Controller {
                     message = new SendMessage(chatId, "Hai settato " + option);
                     MainBot.dao.getGraduationDAO().insertYear("" + chatId, possibleYears.get(s));
                     MainBot.dao.getCommandDAO().clearLastCommand("" + chatId);
+                    message.setReplyMarkup(getKeyboardMenu());
                     break;
                 }
             }
@@ -92,11 +96,47 @@ public class ControllerSelectYear extends Controller {
         // Create a keyboard row
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
-        for (String value : years.keySet()) {
+        TreeSet<String> keySet = new TreeSet(years.keySet());
+        for (String value : keySet) {
+            row = new KeyboardRow();
             row.add(utility.normalizeForSetYears(value));
+            keyboard.add(row);
         }
         // Add the first row to the keyboard
         keyboard.add(row);
+        // Set the keyboard to the markup
+        keyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        return keyboardMarkup;
+    }
+
+    private ReplyKeyboardMarkup getKeyboardMenu() {
+        // Create ReplyKeyboardMarkup object
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        // Create the keyboard (list of keyboard rows)
+        List<KeyboardRow> keyboard = new ArrayList();
+        // Create a keyboard row
+        KeyboardRow row = new KeyboardRow();
+        // Set each button, you can also use KeyboardButton objects if you need something else than text
+        row.add(Utilities.TODAY_COMMAND);
+        keyboard.add(row);
+        row = new KeyboardRow();
+        row.add(Utilities.TOMORROW_COMMAND);
+        // Add the first row to the keyboard
+        keyboard.add(row);
+        
+        row = new KeyboardRow();
+        row.add(Utilities.HOME_COMMAND);
+        keyboard.add(row);
+        
+        row = new KeyboardRow();
+        row.add(Utilities.SET_GRADUATION_COMMAND);
+        keyboard.add(row);
+        
+        row = new KeyboardRow();
+        row.add(Utilities.SET_YEAR_COMMAND);
+        keyboard.add(row);
+        
         // Set the keyboard to the markup
         keyboardMarkup.setKeyboard(keyboard);
         // Add it to the message

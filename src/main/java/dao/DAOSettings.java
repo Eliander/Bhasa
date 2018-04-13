@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.derby.jdbc.ClientDriver;
 
 public class DAOSettings {
     

@@ -64,6 +64,9 @@ public class ControllerToday extends Controller {
         
         UNIVRequest call = new UNIVRequest();
         Timetable timetable = call.getData(graduation + "", year, date);
+        if(timetable.getLessons().size() == 0){
+            return "Oggi non hai lezione";
+        }
         for(Lesson lesson : timetable.getLessons()){
             result = result + lesson.getLabel() + "\n";
             result = result + lesson.getClassroom() + "\n";

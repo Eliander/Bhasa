@@ -17,7 +17,7 @@ public class CommandDAO {
     private final String DELETE = "DELETE FROM COMMANDS WHERE CHATID = ?";
     
     public String getLastCommand(String chatID){
-        String command = null;
+        String command = "";
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(SELECT);
@@ -32,7 +32,8 @@ public class CommandDAO {
         }
         return command;
     }
-    
+    //to do inserire un numero davanti al nome della laurea nella mappa statica per riconoscere in caso di simili con nomi lunghi
+    //to do quando cambi laurea metti il corso a null. se si prova a chiamare today senza aver settato l'anno manda errore
     public boolean insertLastCommand(String chatID, String lastCommand){
         boolean result = false;
         try {

@@ -39,6 +39,7 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String message = update.getMessage().getText();
             Controller controller;
+            //to do inserire una risposta a grazie
             switch (message) {
                 case Utilities.START_COMMAND:
                     controller = new ControllerStart();

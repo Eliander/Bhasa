@@ -18,6 +18,7 @@ public class GraduationDAO {
     private final String UPDATE_YEAR = "UPDATE GRADUATION SET COURSE = ? WHERE CHATID = ?";
     private final String UPDATE = "UPDATE GRADUATION SET GRADUATION = ? WHERE CHATID = ?";
     private final String DELETE = "DELETE FROM GRADUATION WHERE CHATID = ?";
+    private final String CHECK_IF_EXIST = "SELECT COUNT(1) FROM GRADUATION WHERE CHATID = ?";
 
     public int getGraduation(String chatID) {
         int graduation = 0;
@@ -70,6 +71,28 @@ public class GraduationDAO {
         return result;
     }
 
+    public boolean existUser(String chatID) {
+        boolean result = false;
+        try {
+            Connection con = DAOSettings.getConnection();
+            PreparedStatement pst = con.prepareStatement(CHECK_IF_EXIST);
+            pst.setString(1, chatID);
+            ResultSet rs = pst.executeQuery();
+            int exist = 0;
+            if (rs.next()) {
+                //to do modificare anche qui
+                exist = rs.getInt("1");
+            }
+            con.close();
+            if (exist == 1) {
+                result = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+    }
+
     public boolean insertYear(String chatID, String year) {
         boolean result = false;
         try {
@@ -91,8 +114,8 @@ public class GraduationDAO {
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(UPDATE);
-            pst.setString(1, chatID);
-            pst.setInt(2, Integer.parseInt(graduation));
+            pst.setInt(1, Integer.parseInt(graduation));
+            pst.setString(2, chatID);
             pst.executeUpdate();
             con.close();
             result = true;

@@ -25,7 +25,9 @@ public class ControllerStart extends Controller {
         //new user
         if (MainBot.dao.getGraduationDAO().getGraduation(chatId + "") == 0) {
             SendMessage message = new SendMessage(chatId, this.text);
-            MainBot.dao.getCommandDAO().insertLastCommand(chatId + "", "/setGraduation");
+            if(MainBot.dao.getCommandDAO().getLastCommand(chatId + "").isEmpty()){
+                MainBot.dao.getCommandDAO().insertLastCommand(chatId + "", Utilities.SET_GRADUATION_COMMAND);
+            }
             try {
                 bot.execute(message);
                 return true;

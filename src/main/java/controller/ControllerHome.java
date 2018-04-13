@@ -22,7 +22,7 @@ import utilities.Utilities;
  * @author Elia
  */
 public class ControllerHome extends Controller {
-
+    //to do da rimuovere
     private static final Logger log = LogManager.getLogger(ControllerHome.class);
 
     public ControllerHome() {
