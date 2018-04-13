@@ -9,6 +9,7 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import postRequest.UNIVRequest;
+import utilities.Utilities;
 
 /**
  *
@@ -16,17 +17,17 @@ import postRequest.UNIVRequest;
  */
 public class ControllerSelectGraduation extends Controller {
 
-    private static final Logger log = LogManager.getLogger(ControllerSelectGraduation.class);
-    private static final UNIVRequest request = new UNIVRequest();
+    private static final Logger LOG = LogManager.getLogger(ControllerSelectGraduation.class);
+    private static final UNIVRequest REQUEST = new UNIVRequest();
 
     private String option = null;
 
     public ControllerSelectGraduation() {
-        super("/setGraduation");
+        super(Utilities.SET_GRADUATION_COMMAND);
     }
 
     public ControllerSelectGraduation(String option) {
-        super("/setGraduation");
+        super(Utilities.SET_GRADUATION_COMMAND);
         this.option = option;
     }
 
@@ -38,7 +39,7 @@ public class ControllerSelectGraduation extends Controller {
             //aggiorno nel db i dati dell'ultimo comando
             MainBot.dao.getCommandDAO().updateLastCommand(chatId + "", this.command);
         } else {
-            HashMap<Integer, String> graduations = getPossibleGraduation(" " + option);
+            HashMap<String, Integer> graduations = getPossibleGraduation(option);
             message = new SendMessage(chatId, printGraduation(graduations, chatId));
         }
         try {
@@ -54,44 +55,39 @@ public class ControllerSelectGraduation extends Controller {
     protected String setText() {
         return "ok";
     }
-
-    //TODO: renderla una hashmap statica da caricare all'inizio e a cui accedere. Creare le strutture coi corsi e salvare gli ID
-    private HashMap<Integer, String> getPossibleGraduation(String grad) {
-        String value = request.getValues()[1];
-        //remove all lessons
-        value = value.replace("[", "$");
-        value = value.replace("[", "$");
-        value = value.replaceAll("\\[.*?\\]", "");
-        value = value.replaceAll("\"", "");
-        value = value.replaceAll(":", "");
-        String[] split = value.split("label");
-        //extract graduations
-        HashMap<Integer, String> graduations = new HashMap();
-
-        for (String s : split) {
-            if ((s.contains("Laurea")) && s.contains(grad)) {
-                graduations.put(Integer.parseInt(s.split("valore")[1].substring(0, 3)), s.split(",")[0]);
-            }
-        }
-        return graduations;
-    }
-
-    private String printGraduation(HashMap<Integer, String> values, long chatId) {
-        String result = "";
-        if (values.isEmpty()) {
-            result = "Spiacente, non è stato trovato nessun corso di laurea con quel nome. Sicuro di aver scritto giusto?";
-        } else if (values.size() == 1) {
-            for (int i : values.keySet()) {
-                result = "Ottimo, hai settato " + values.get(i);
-            }
-            MainBot.dao.getCommandDAO().clearLastCommand(chatId + "");
-        } else {
-            result = "Esistono più corsi che contengono quel nome... Cerca di essere più preciso!" + "\n";
-            for (int i : values.keySet()) {
-                result = result + values.get(i) + "\n";
+    
+    private HashMap<String, Integer> getPossibleGraduation(String grad){
+        HashMap<String, Integer> result = new HashMap();
+        for(String graduation : MainBot.graduations.keySet()){
+            if(graduation.contains(" " + grad)){
+                result.put(graduation, MainBot.graduations.get(graduation));
             }
         }
         return result;
     }
+
+    private String printGraduation(HashMap<String, Integer> values, long chatId) {
+        String result = "";
+        if (values.isEmpty()) {
+            result = "Spiacente, non è stato trovato nessun corso di laurea con quel nome. Sicuro di aver scritto giusto?";
+        } else if (values.size() == 1) {
+            int valueOfGraduation = 0;
+            for (String i : values.keySet()) {
+                result = "Ottimo, hai settato " + i + ". Ora seleziona dalla tastiera il tuo anno di laurea: ";
+                valueOfGraduation = values.get(i);
+            }
+            MainBot.dao.getCommandDAO().updateLastCommand(chatId + "", utilities.Utilities.SET_YEAR_COMMAND);
+            
+            MainBot.dao.getGraduationDAO().insertUser(chatId + "", valueOfGraduation + "");
+        } else {
+            result = "Esistono più corsi che contengono quel nome... Cerca di essere più preciso!" + "\n";
+            for (String i : values.keySet()) {
+                result = result + i + "\n";
+            }
+        }
+        return result;
+    }
+    
+    //to do preparare per il set anno accademico
 
 }

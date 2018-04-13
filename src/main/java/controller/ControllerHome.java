@@ -7,7 +7,6 @@ package controller;
 
 import bhasa.MainBot;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +26,7 @@ public class ControllerHome extends Controller {
     private static final Logger log = LogManager.getLogger(ControllerHome.class);
 
     public ControllerHome() {
-        super("/home");
+        super(Utilities.HOME_COMMAND);
     }
 
     @Override
@@ -57,9 +56,9 @@ public class ControllerHome extends Controller {
         // Create a keyboard row
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
-        row.add(Utilities.set_graduation);
-        row.add(Utilities.today);
-        row.add(Utilities.tomorrow);
+        row.add(Utilities.SET_GRADUATION_COMMAND);
+        row.add(Utilities.TODAY_COMMAND);
+        row.add(Utilities.TOMORROW_COMMAND);
         // Add the first row to the keyboard
         keyboard.add(row);
         // Set the keyboard to the markup

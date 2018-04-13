@@ -20,10 +20,11 @@ import telegramBot.UNIVRTimeBot;
 public class MainBot {
 
     public static final DAOSettings dao = DAOSettings.DAO;
-    public static final UNIVRequest request = new UNIVRequest();
-    public static HashMap<Integer, HashMap<String, String>> years = new HashMap();
+    public static final UNIVRequest REQUEST = new UNIVRequest();
+    //corso laurea, 
+    public static HashMap<Integer, HashMap<String, String>> years = getYears();
+    public static HashMap<String, Integer> graduations = getGraduation();
     //TO DO girala, cerchi per nome non per valore
-    public static HashMap<Integer, String> graduations = getGraduation();
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
@@ -35,9 +36,10 @@ public class MainBot {
         }
     }
 
-    private static HashMap<Integer, String> getGraduation() {
+    private static HashMap<Integer, HashMap<String, String>> getYears() {
+        HashMap<Integer, HashMap<String, String>> years = new HashMap();
         try {
-            String value = request.getValues()[1];
+            String value = REQUEST.getValues()[1];
             //remove all lessons
             value = value.replace("[", "$");
             value = value.replace("[", "$");
@@ -46,21 +48,24 @@ public class MainBot {
             value = value.replaceAll(":", "");
             String[] split = value.split("label");
             //extract graduations
-            HashMap<Integer, String> graduations = new HashMap();
+            //HashMap<Integer, String> graduations = new HashMap();
             for (int i = 0; i < split.length; i++) {
                 int graduation = 0;
                 if ((split[i].contains("Laurea"))) {
                     graduation = Integer.parseInt(split[i].split("valore")[1].substring(0, 3));
-                    graduations.put(graduation, split[i].split(",")[0]);
+                    //graduations.put(graduation, split[i].split(",")[0]);
                     i++;
                     //prendo i corsi
                     HashMap<String, String> gradYears = new HashMap();
                     while (!(split[i].contains("Laurea") || split[i].contains("CLA"))) {
-                        int offset = split[i].indexOf("valore") + "valore".length();
-                        int end = split[i].indexOf("}");
-                        System.out.println(graduation + " " + offset + " " + end);
-                        gradYears.put(split[i].substring(offset, end), split[i].substring(0, offset - 6));
-                        //years.put(split[i]);
+                        //lasciamo da parte il resto
+                        if (split[i].contains("anno")) {
+                            int offset = split[i].indexOf("valore") + "valore".length();
+                            int end = split[i].indexOf("}");
+                            //System.out.println(graduation + " " + offset + " " + end);
+                            gradYears.put(split[i].substring(0, offset - 6), split[i].substring(offset, end));
+                            //years.put(split[i]);
+                        }
                         i++;
                     }
                     years.put(graduation, gradYears);
@@ -68,8 +73,28 @@ public class MainBot {
                 }
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
+        }
+        return years;
+    }
+    
+    private static HashMap<String, Integer> getGraduation() {
+        String value = REQUEST.getValues()[1];
+        //remove all lessons
+        value = value.replace("[", "$");
+        value = value.replace("[", "$");
+        value = value.replaceAll("\\[.*?\\]", "");
+        value = value.replaceAll("\"", "");
+        value = value.replaceAll(":", "");
+        String[] split = value.split("label");
+        //extract graduations
+        HashMap<String, Integer> graduations = new HashMap();
+
+        for (String s : split) {
+            if ((s.contains("Laurea"))) {
+                graduations.put(s.split(",")[0], Integer.parseInt(s.split("valore")[1].substring(0, 3)));
+            }
         }
         return graduations;
     }

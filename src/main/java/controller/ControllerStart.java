@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import utilities.Utilities;
 
 /**
  *
@@ -13,18 +14,18 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
  */
 public class ControllerStart extends Controller {
 
-    private static final Logger log = LogManager.getLogger(ControllerStart.class);
+    private static final Logger LOG = LogManager.getLogger(ControllerStart.class);
 
     public ControllerStart() {
-        super("/start");
+        super(Utilities.START_COMMAND);
     }
 
     @Override
     public boolean send(long chatId, DefaultAbsSender bot) {
         //new user
-        if (MainBot.dao.getGraduationDAO().getGraduation(chatId + "") != 0) {
+        if (MainBot.dao.getGraduationDAO().getGraduation(chatId + "") == 0) {
             SendMessage message = new SendMessage(chatId, this.text);
-            MainBot.dao.getCommandDAO().updateLastCommand(chatId + "", "/setGraduation");
+            MainBot.dao.getCommandDAO().insertLastCommand(chatId + "", "/setGraduation");
             try {
                 bot.execute(message);
                 return true;
@@ -47,7 +48,7 @@ public class ControllerStart extends Controller {
 
     @Override
     protected String setText() {
-        return "Ciao, benvenuto nel bot orari UNIVR. Seleziona il tuo corso di laurea: ";
+        return "Ciao, benvenuto nel bot orari UNIVR. Scrivi il tuo corso di laurea: " + "\n" + "es: informatica ";
     }
 
 }

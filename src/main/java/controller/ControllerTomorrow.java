@@ -8,6 +8,8 @@ package controller;
 import bhasa.MainBot;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -23,9 +25,10 @@ import utilities.Utilities;
 public class ControllerTomorrow extends Controller {
 
     Calendar date;
+    private static final Logger LOG = LogManager.getLogger(ControllerTomorrow.class);
 
     public ControllerTomorrow() {
-        super(Utilities.tomorrow);
+        super(Utilities.TOMORROW_COMMAND);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class ControllerTomorrow extends Controller {
 
     private String getTomorrowTime(long chatId) {
         int graduation = MainBot.dao.getGraduationDAO().getGraduation(chatId + "");
-        String course = MainBot.dao.getGraduationDAO().getCourse(chatId + "");
+        String year = MainBot.dao.getGraduationDAO().getYear(chatId + "");
         String result = this.text + "\n";
         
         //non sempre vale la pena controllare, se e sabato o domenica non ci sono lezioni
@@ -64,7 +67,7 @@ public class ControllerTomorrow extends Controller {
         }
         
         UNIVRequest call = new UNIVRequest();
-        Timetable timetable = call.getData(graduation + "", course, date);
+        Timetable timetable = call.getData(graduation + "", year, date);
         for(Lesson lesson : timetable.getLessons()){
             result = result + lesson.getLabel() + "\n";
             result = result + lesson.getClassroom() + "\n";

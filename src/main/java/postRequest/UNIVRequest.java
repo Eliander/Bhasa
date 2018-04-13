@@ -70,9 +70,9 @@ public class UNIVRequest {
     }
 
     // HTTP POST request: grid_call.php, contains data
-    public Timetable getData(String graduation, String course, Calendar c) {
+    public Timetable getData(String graduation, String year, Calendar c) {
         String arr[] = null;
-        course = utility.normalizeModule(course);
+        year = utility.normalizeModule(year);
         try {
             URL url = new URL(urlData);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -82,7 +82,7 @@ public class UNIVRequest {
 
             //Old params: dont remove. they are son of devil, they could change this every day
             //String urlParameters = "form-type=corso&aa=2017&cdl="+ lesson + "&anno=2018&corso=" + lesson + "&anno2=" + module + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
-            String urlParameters = "form-type=corso&anno=2017&corso=" + graduation + "&anno2=" + course + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
+            String urlParameters = "form-type=corso&anno=2017&corso=" + graduation + "&anno2=" + year + "&date=" + utility.normalizeDate(c) + "&_lang=it&all_events=0";
             //String urlParameters = "form-type=corso&anno=2017&corso=420&anno2=999%7C2&date=28-02-2018&_lang=it&all_events=0";
             log.info("Send POST request - data");
 
@@ -142,7 +142,7 @@ public class UNIVRequest {
         ArrayList<LinkedTreeMap> array = new ArrayList<LinkedTreeMap>((ArrayList) map.get("celle"));
 
         int getDay;
-        String month = utility.months[calendar.get(GregorianCalendar.MONTH)];
+        String month = utility.MONTHS[calendar.get(GregorianCalendar.MONTH)];
 
         for (LinkedTreeMap lesson : array) {
             //prima di creare il corso fai il controllo sul giorno> se e lo stesso giorno in cui puo esserci lezione

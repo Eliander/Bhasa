@@ -24,7 +24,7 @@ public class ControllerToday extends Controller {
     Calendar date;
 
     public ControllerToday() {
-        super(Utilities.today);
+        super(Utilities.TODAY_COMMAND);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ControllerToday extends Controller {
 
     private String getTodayTime(long chatId) {
         int graduation = MainBot.dao.getGraduationDAO().getGraduation(chatId + "");
-        String course = MainBot.dao.getGraduationDAO().getCourse(chatId + "");
+        String year = MainBot.dao.getGraduationDAO().getYear(chatId + "");
         String result = this.text + "\n";
         
         //non sempre vale la pena controllare, se e sabato o domenica non ci sono lezioni
@@ -63,7 +63,7 @@ public class ControllerToday extends Controller {
         }
         
         UNIVRequest call = new UNIVRequest();
-        Timetable timetable = call.getData(graduation + "", course, date);
+        Timetable timetable = call.getData(graduation + "", year, date);
         for(Lesson lesson : timetable.getLessons()){
             result = result + lesson.getLabel() + "\n";
             result = result + lesson.getClassroom() + "\n";

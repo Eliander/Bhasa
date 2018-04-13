@@ -13,41 +13,42 @@ import java.util.Random;
 public class Utilities {
     
     //commands
-    public static final String start_command = "/start";
-    public static final String set_graduation = "/setGraduation";
-    public static final String home = "/home";
-    public static final String today = "/today";
-    public static final String tomorrow = "/tomorrow";
+    public static final String START_COMMAND = "/start";
+    public static final String SET_GRADUATION_COMMAND = "/setGraduation";
+    public static final String SET_YEAR_COMMAND = "/setYear";
+    public static final String HOME_COMMAND = "/home";
+    public static final String TODAY_COMMAND = "/today";
+    public static final String TOMORROW_COMMAND = "/tomorrow";
     //end commands
     private Random random = new Random();
     public final String NAME_PROJECT = "Bhasa";
-    public final String[] months = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
-    public final String[] colours = {"#FFFCB1","#FFE6BB","#B9F4FF","#F3BAF5","#F1D0D0",
-        "#D5FFA4","#FDCBFE","#A0F3A2","#FFE8A4","#FFC6A4","#EEC0C0","#A7C7D3",
-        "#80D886","#A6E2FF","#DDFF75","#FFBFCF","#8CB1FF","#FEE080","#DC8080",
-        "#FFB480","#A9F580","#A6F9A2","#C6DBE1","#F99ECD","#C5C6FC","#FDC100",
-        "#56C878","#E9D6B2","#FFA100","#DBBEC9","#DB7BAE","#FFFF72","#F2CDA5",
-        "#CABD00","#A9D8B9","#EBB2BB","#BFCFCF","#59B726","#DE7083","#68BBD9",
-        "#FF8147","#87D21E","#44D36F","#CA9D00","#5D94E1","#CB78CE","#00BD09",
-        "#4EC300","#F99A9A","#FFFF72","#C175D6","#6BBAFF","#FF8D01","#CAC300",
-        "#5AA800","#FF8F2E","#3EC1A7","#FF9C39","#E7698F","#D9AC1A","#3BCA8C",
-        "#E06E96","#E9AF5D","#6699CC","#FF99CC","#99CCFF","#DCB02C","#FF7F5B",
-        "#29D984","#99FF99","#9999FF","#47BAAD","#FF9FFA","#00C161","#B093FF",
-        "#57B3FF","#CAFF7A","#EDE053","#5ECCB1","#5AB8D2","#7A95FF","#FFD83D",
-        "#FF6A34","#5AE09B","#E4CA95","#66C5BA","#CC7E7E","#E6AFEE","#8DD7B1",
-        "#DE8EB6","#FFA3A3","#FFD1A3","#FFA3FF","#C5FFB1","#FFFCB1","#FFE6BB",
-        "#B9F4FF","#F3BAF5","#F1D0D0","#D5FFA4","#FDCBFE","#A0F3A2","#FFE8A4",
-        "#FFC6A4","#EEC0C0","#A7C7D3","#80D886","#A6E2FF","#DDFF75","#FFBFCF",
-        "#8CB1FF","#FEE080","#DC8080","#FFB480","#A9F580","#A6F9A2","#C6DBE1",
-        "#F99ECD","#C5C6FC","#FDC100","#56C878","#E9D6B2","#FFA100","#DBBEC9",
-        "#DB7BAE","#FFFF72","#F2CDA5","#CABD00","#A9D8B9","#EBB2BB","#BFCFCF",
-        "#59B726","#DE7083","#68BBD9","#FF8147","#87D21E","#44D36F","#CA9D00",
-        "#5D94E1","#CB78CE","#00BD09","#4EC300","#F99A9A","#FFFF72","#C175D6",
-        "#6BBAFF","#FF8D01","#CAC300","#5AA800","#FF8F2E","#3EC1A7","#FF9C39",
-        "#E7698F","#D9AC1A","#3BCA8C","#E06E96","#E9AF5D","#6699CC","#FF99CC",
-        "#99CCFF","#DCB02C","#FF7F5B","#29D984","#99FF99","#9999FF","#47BAAD",
-        "#FF9FFA","#00C161","#B093FF","#57B3FF","#CAFF7A","#EDE053","#5ECCB1",
-        "#5AB8D2","#7A95FF","#FFD83D","#FF6A34"};
+    public final String[] MONTHS = {"gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"};
+    public final String[] COLOURS= {"#FFFCB1","#FFE6BB","#B9F4FF","#F3BAF5","#F1D0D0","#FFD83D","#FF6A34",
+                                    "#D5FFA4","#FDCBFE","#A0F3A2","#FFE8A4","#FFC6A4","#EEC0C0","#A7C7D3",
+                                    "#80D886","#A6E2FF","#DDFF75","#FFBFCF","#8CB1FF","#FEE080","#DC8080",
+                                    "#FFB480","#A9F580","#A6F9A2","#C6DBE1","#F99ECD","#C5C6FC","#FDC100",
+                                    "#56C878","#E9D6B2","#FFA100","#DBBEC9","#DB7BAE","#FFFF72","#F2CDA5",
+                                    "#CABD00","#A9D8B9","#EBB2BB","#BFCFCF","#59B726","#DE7083","#68BBD9",
+                                    "#FF8147","#87D21E","#44D36F","#CA9D00","#5D94E1","#CB78CE","#00BD09",
+                                    "#4EC300","#F99A9A","#FFFF72","#C175D6","#6BBAFF","#FF8D01","#CAC300",
+                                    "#5AA800","#FF8F2E","#3EC1A7","#FF9C39","#E7698F","#D9AC1A","#3BCA8C",
+                                    "#E06E96","#E9AF5D","#6699CC","#FF99CC","#99CCFF","#DCB02C","#FF7F5B",
+                                    "#29D984","#99FF99","#9999FF","#47BAAD","#FF9FFA","#00C161","#B093FF",
+                                    "#57B3FF","#CAFF7A","#EDE053","#5ECCB1","#5AB8D2","#7A95FF","#FFD83D",
+                                    "#FF6A34","#5AE09B","#E4CA95","#66C5BA","#CC7E7E","#E6AFEE","#8DD7B1",
+                                    "#DE8EB6","#FFA3A3","#FFD1A3","#FFA3FF","#C5FFB1","#FFFCB1","#FFE6BB",
+                                    "#B9F4FF","#F3BAF5","#F1D0D0","#D5FFA4","#FDCBFE","#A0F3A2","#FFE8A4",
+                                    "#FFC6A4","#EEC0C0","#A7C7D3","#80D886","#A6E2FF","#DDFF75","#FFBFCF",
+                                    "#8CB1FF","#FEE080","#DC8080","#FFB480","#A9F580","#A6F9A2","#C6DBE1",
+                                    "#F99ECD","#C5C6FC","#FDC100","#56C878","#E9D6B2","#FFA100","#DBBEC9",
+                                    "#DB7BAE","#FFFF72","#F2CDA5","#CABD00","#A9D8B9","#EBB2BB","#BFCFCF",
+                                    "#59B726","#DE7083","#68BBD9","#FF8147","#87D21E","#44D36F","#CA9D00",
+                                    "#5D94E1","#CB78CE","#00BD09","#4EC300","#F99A9A","#FFFF72","#C175D6",
+                                    "#6BBAFF","#FF8D01","#CAC300","#5AA800","#FF8F2E","#3EC1A7","#FF9C39",
+                                    "#E7698F","#D9AC1A","#3BCA8C","#E06E96","#E9AF5D","#6699CC","#FF99CC",
+                                    "#99CCFF","#DCB02C","#FF7F5B","#29D984","#99FF99","#9999FF","#47BAAD",
+                                    "#FF9FFA","#00C161","#B093FF","#57B3FF","#CAFF7A","#EDE053","#5ECCB1",
+                                    "#5AB8D2","#7A95FF"};
     
     //genera un colore casuale
     public Color randomColor() {
@@ -59,7 +60,7 @@ public class Utilities {
     }
     //genera un colore casuale dalla lista
     public Color randHEXColor(){
-        String colorStr = colours[random.nextInt(colours.length)];
+        String colorStr = COLOURS[random.nextInt(COLOURS.length)];
         return new Color(
             Integer.valueOf(colorStr.substring(1,3),16),
             Integer.valueOf(colorStr.substring(3,5),16),
@@ -116,6 +117,11 @@ public class Utilities {
             return normalizeString(new String(s.substring(1)));
         }
         return s;
+    }
+    
+    public String normalizeForSetYears(String s){
+        int cut = s.indexOf("-");
+        return s.substring(0, cut);
     }
 
 }

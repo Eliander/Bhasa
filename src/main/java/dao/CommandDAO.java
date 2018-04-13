@@ -38,8 +38,8 @@ public class CommandDAO {
         try {
             Connection con = DAOSettings.getConnection();
             PreparedStatement pst = con.prepareStatement(INSERT);
-            pst.setString(1, lastCommand);
-            pst.setString(2, chatID);
+            pst.setString(1, chatID);
+            pst.setString(2, lastCommand);
             pst.executeUpdate();
             con.close();
             result = true;

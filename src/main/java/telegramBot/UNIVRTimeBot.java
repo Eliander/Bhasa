@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import bhasa.MainBot;
+import controller.ControllerSelectYear;
 import controller.ControllerTomorrow;
 import utilities.Utilities;
 
@@ -39,19 +40,22 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
             String message = update.getMessage().getText();
             Controller controller;
             switch (message) {
-                case Utilities.start_command:
+                case Utilities.START_COMMAND:
                     controller = new ControllerStart();
                     break;
-                case Utilities.set_graduation:
+                case Utilities.SET_GRADUATION_COMMAND:
                     controller = new ControllerSelectGraduation();
                     break;
-                case Utilities.home:
+                case Utilities.SET_YEAR_COMMAND:
+                    controller = new ControllerSelectYear();
+                    break;
+                case Utilities.HOME_COMMAND:
                     controller = new ControllerHome();
                     break;
-                case Utilities.today:
+                case Utilities.TODAY_COMMAND:
                     controller = new ControllerToday();
                     break;
-                case Utilities.tomorrow:
+                case Utilities.TOMORROW_COMMAND:
                     controller = new ControllerTomorrow();
                     break;
                 default:
@@ -78,8 +82,11 @@ public class UNIVRTimeBot extends TelegramLongPollingBot {
         Controller controller = null;
         String lastCommand = MainBot.dao.getCommandDAO().getLastCommand(chatID + "");
         switch (lastCommand) {
-            case Utilities.set_graduation:
+            case Utilities.SET_GRADUATION_COMMAND:
                 controller = new ControllerSelectGraduation(message);
+                break;
+            case Utilities.SET_YEAR_COMMAND:
+                controller = new ControllerSelectYear(message);
                 break;
             default:
                 //hai inserito un comando o un'opzione non valido
